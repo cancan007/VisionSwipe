@@ -40,8 +40,8 @@ body {
 }
 
 .aboutus-section{
-  background-image: url('./assets/service-image.png');
-  background-size:auto;
+  background-image: url('./assets/aboutus-image.png');
+  background-size:cover;
   width: 38vw;
   height:30vh;
 }
