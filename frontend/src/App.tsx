@@ -44,8 +44,20 @@ function App() {
                 <img className='row-start-3 row-end-4 col-start-5 col-end-6 object-contain hover:opacity-40' src={bitcoinIcon}/>
             </div>
           </div>
+          <div className="w-4/5 h-auto flex flex-row justify-between mt-20">
+            <div className="aboutus-section">
+              <p className="text-5xl m-2">About us</p>
+            </div>
+            <div className="contact-section">
+              <p className="text-5xl m-2">Contact</p>
+            </div>
+          </div>
         </section>
+        <footer className="mt-20 main-footer">
+        
+      </footer>
       </body>
+      
     </div>
   );
 }
