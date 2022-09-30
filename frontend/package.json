@@ -22,6 +22,7 @@
     "react-app-rewired": "^2.2.1",
     "react-blockies": "^1.4.1",
     "react-dom": "^18.0.0",
+    "react-intersection-observer": "^9.4.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
