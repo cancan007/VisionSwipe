@@ -13,7 +13,7 @@ body {
   font-size: 1.2rem;
   color: white;
   min-height: 100vh;
-  height: 1920px;
+  height: 2500px;
   width:100vw;
 }
 
@@ -29,5 +29,12 @@ body {
   background-image: url('./assets/house.png');
   background-size:cover;
   width:80vw;
+  height:auto;
+}
+
+.service-section{
+  background-image: url('./assets/service-image.png');
+  background-size: cover;
+  width: 80vw;
   height:auto;
 }

@@ -6,6 +6,9 @@ import visionSwipe from './assets/vision-swipe.png'
 import buyIcon from './assets/BuyIcon.png'
 import rentIcon from "./assets/RentIcon.png"
 import bookIcon from "./assets/BookIcon.png"
+import blockchainIcon from "./assets/blockchainIcon.png"
+import nftIcon from "./assets/nftIcon.png"
+import bitcoinIcon from "./assets/cryptoIcon.png"
 
 function App() {
   return (
@@ -30,6 +33,15 @@ function App() {
                 <img className="row-start-1 row-end-2 col-start-6 col-end-7 object-contain hover:opacity-40" src={buyIcon}/>
                 <img className="row-start-2 row-end-3 col-start-5 col-end-6 object-contain hover:opacity-40" src={rentIcon}/>
                 <img className="row-start-3 row-end-4 col-start-4 col-end-5 object-contain hover:opacity-40" src={bookIcon}/>
+            </div>
+          </div>
+          <div className="service-section mt-20 flex flex-row">
+            <p className="text-7xl m-10 z-1">Services</p>
+            <div className="w-full grid grid-row-3 grid-col-5 gap-0">
+            <img className='row-start-1 row-end-2 col-start-4 col-end-5 object-contain opacity-0' src={blockchainIcon}/>
+                <img className='row-start-2 row-end-3 col-start-4 col-end-5 object-contain hover:opacity-40' src={blockchainIcon}/>
+                <img className='row-start-2 row-end-3 col-start-6 col-end-7 object-contain hover:opacity-40' src={nftIcon}/>
+                <img className='row-start-3 row-end-4 col-start-5 col-end-6 object-contain hover:opacity-40' src={bitcoinIcon}/>
             </div>
           </div>
         </section>
