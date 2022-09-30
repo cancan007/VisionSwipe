@@ -14,12 +14,20 @@ body {
   color: white;
   min-height: 100vh;
   height: 1920px;
+  width:100vw;
 }
 
 .header-home{
   background-image: url('./assets/cube.png');
   
-  width:100vw;
+  width:100%;
   height:800px;
   background-size: cover;
+}
+
+.building-section{
+  background-image: url('./assets/house.png');
+  background-size:cover;
+  width:80vw;
+  height:auto;
 }

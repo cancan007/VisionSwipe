@@ -3,13 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 import './index.css';
 import visionSwipe from './assets/vision-swipe.png'
+import buyIcon from './assets/BuyIcon.png'
+import rentIcon from "./assets/RentIcon.png"
+import bookIcon from "./assets/BookIcon.png"
+
 function App() {
   return (
     <div>
       <head>
         <title>Vision Swipe</title>
       </head>
-      <body>
+      <body className="w-full items-center">
         <header className="header-home flex flex-row justify-between">
           <img src={visionSwipe} className="m-5 ml-10 object-contain w-80 h-14"/>
           <div className="flex flex-col items-center self-center mr-32">
@@ -19,9 +23,14 @@ function App() {
           </div>
           
         </header>
-        <section className="flex-col items-center">
-          <div className="building-section">
-
+        <section className="flex flex-col items-center">
+          <div className="building-section mt-20 flex flex-row">
+            <p className='text-7xl m-10 z-1'>Buildings</p>
+            <div className="w-full grid grid-row-3 grid-col-5 gap-0">
+                <img className="row-start-1 row-end-2 col-start-6 col-end-7 object-contain hover:opacity-40" src={buyIcon}/>
+                <img className="row-start-2 row-end-3 col-start-5 col-end-6 object-contain hover:opacity-40" src={rentIcon}/>
+                <img className="row-start-3 row-end-4 col-start-4 col-end-5 object-contain hover:opacity-40" src={bookIcon}/>
+            </div>
           </div>
         </section>
       </body>
