@@ -1,0 +1,2 @@
+dtoとはrequestする際にマッピングするためのもの
+entityとはinterface(idをつければいいっぽい)
