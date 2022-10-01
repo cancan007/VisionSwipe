@@ -13,10 +13,11 @@ export class BuildingsService {
 
     async addBuilding(dto:AddBuilding): Promise<BuildingEnt>{
        const addedBuilding = new this.buildingModel(dto);
-       return addedBuilding;
+       return addedBuilding.save();
+       
     }
 
     async fetchBuildings(dto:FetchBuildings):Promise<Array<BuildingEnt>>{
-        return this.buildingModel.find();
+        return this.buildingModel.find().exec();
     }
 }

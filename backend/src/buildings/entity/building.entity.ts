@@ -7,7 +7,7 @@ export interface BuildingEnt{
   company: string;
   companyJP?: string;
   companyUrl: string;
-  images: Array<{ data: Buffer; contentType: string }>;
+  images?: Array<{ data: Buffer; contentType: string }>;
   address: string;
   addressJP?: string;
   country:string;

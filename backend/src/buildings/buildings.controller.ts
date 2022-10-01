@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BuildingsService } from './buildings.service';
-import { FetchBuildings } from './dto/building.dto';
+import { AddBuilding, FetchBuildings } from './dto/building.dto';
 import { BuildingEnt } from './entity/building.entity';
 
 @Controller('buildings')
@@ -11,5 +11,10 @@ export class BuildingsController {
     @Get()
     fetchBuildings(@Body() body: FetchBuildings): Promise<BuildingEnt[]>{
         return this.buildingsService.fetchBuildings(body);
+    }
+
+    @Post()
+    addBuilding(@Body() body: AddBuilding): Promise<BuildingEnt>{
+        return this.buildingsService.addBuilding(body)
     }
 }

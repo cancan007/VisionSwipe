@@ -79,7 +79,6 @@ export class Building {
     address: string;
   @Prop({
       type:String,
-      required:true,
       min:5
     })
     addressJP?:string;

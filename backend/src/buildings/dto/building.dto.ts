@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 export class AddBuilding {
-  readonly name: string;
-  readonly nameJP?: string;
-  readonly company: string;
+  name: string;
+  nameJP?: string;
+  company: string;
   companyJP?: string;
-  companyUrl: string;
-  images: Array<{ data: Buffer; contentType: string }>;
+  readonly companyUrl: string;
+  images?: Array<{ data: Buffer; contentType: string }>;
   address: string;
-  addressJP?: string;
+  addressJP ?: string;
   country:string;
   state:string;
   city:string;
