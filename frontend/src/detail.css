@@ -1,0 +1,12 @@
+
+
+.building-detail-header{
+    background-image: url('./assets/detail-image.png');
+    background-size: cover;
+    width:100%;
+    height: 130px;
+}
+
+.building-info-section{
+    color: black;
+}
