@@ -5,6 +5,7 @@ import './index.css';
 import { Landing } from './pages/Landing';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { BuildingDetail } from './pages/BuildingDetail';
+import { Buildings } from './pages/Buildings';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing/>}/>
+        <Route path="/buildings" element={<Buildings/>}/>
         <Route path="/kakurega" element={<BuildingDetail/>}/>
       </Routes>
       </BrowserRouter>

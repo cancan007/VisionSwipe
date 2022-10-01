@@ -6,8 +6,11 @@ export const BuildingDetail = ()=>{
 
     return(
         <body>
-            <header className="building-detail-header">
+            <header className="building-detail-header flex flex-row justify-between">
                 <p className="text-5xl pt-5 pl-10 fadeIn">Building detail</p>
+                <a href="/" className="hover:text-blue-200 focused:text-blue-500">
+                    <p className="text-xl pr-10 pt-5">Home</p>
+                </a>
             </header>
             <section className="flex flex-col items-center ">
                 <FadeIn>

@@ -22,7 +22,7 @@ export const Landing = ()=>{
           
         </header>
         <section className="flex flex-col items-center">
-            <a href='/kakurega' className='cursor-pointer'>
+            <a href='/buildings' className='cursor-pointer'>
           <div className="building-section mt-20 flex flex-row">
             <p className='text-7xl m-10 z-1'>Buildings</p>
             <FadeIn>

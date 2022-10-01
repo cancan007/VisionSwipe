@@ -1,0 +1,8 @@
+
+
+.buildings-background-image{
+    background-image: url("./assets/buildings-image.png");
+    background-position: 0% 60%;
+    width:100%;
+    height:200px;
+}
