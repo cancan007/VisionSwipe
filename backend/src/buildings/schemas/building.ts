@@ -40,7 +40,7 @@ interface IBuilding {
     priceUnit:string
 }*/
 
-@Schema()
+@Schema({collection:'buildings'})
 export class Building {
   @Prop({
     type: String,
@@ -65,7 +65,10 @@ export class Building {
     })
     companyUrl:string;
   @Prop({
-      type:[imageSchema]
+      type:[{
+        data: Buffer,
+        contentType: String
+    }]
     })
     images:Array<ImageType>;
   @Prop({

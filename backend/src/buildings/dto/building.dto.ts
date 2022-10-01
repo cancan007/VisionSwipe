@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 export class AddBuilding {
-  name: string;
-  nameJP?: string;
-  company: string;
+  readonly name: string;
+  readonly nameJP?: string;
+  readonly company: string;
   companyJP?: string;
   companyUrl: string;
   images: Array<{ data: Buffer; contentType: string }>;

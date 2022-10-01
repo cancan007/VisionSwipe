@@ -9,7 +9,7 @@ import { AddBuilding, FetchBuildings } from './dto/building.dto';
 
 @Injectable()
 export class BuildingsService {
-    constructor(@InjectModel(Building.name) private buildingModel: Model<BuildingDocument>) {}
+    constructor(@InjectModel("buildings") private buildingModel: Model<BuildingDocument>) {}
 
     async addBuilding(dto:AddBuilding): Promise<BuildingEnt>{
        const addedBuilding = new this.buildingModel(dto);

@@ -6,7 +6,7 @@ import { BuildingsService } from './buildings.service';
 import { Building, BuildingSchema } from './schemas/building';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name:Building.name, schema:BuildingSchema}])],
+  imports: [MongooseModule.forFeature([{name:"buildings", schema:BuildingSchema}])],
   controllers: [BuildingsController],
   providers: [BuildingsService],
 })
