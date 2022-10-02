@@ -1,8 +1,10 @@
 import '../detail.css'
 import house from "../assets/house.png"
+import kakurega from "../assets/kakurega.png"
 import { FadeIn } from '../animations/FadeIn'
 
 export const BuildingDetail = ()=>{
+  const images = [kakurega, house]
 
     return(
         <body>
@@ -14,10 +16,17 @@ export const BuildingDetail = ()=>{
             </header>
             <section className="flex flex-col items-center ">
                 <FadeIn>
-              <div className="flex flex-row justify-between w-full mt-20">
+              <div className="flex flex-col items-center md:justify-between w-full mt-20 md:flex-row">
+                <div id="slider" className="flex flex-row w-4/5 md:w-1/2 h-auto mb-5 md:mb-0 md:ml-10 overflow-x-auto scroll">
+                  {images.map((image,i)=>{
+                    return(
+                      <img className="" src={image}/>
+                    )
+                  })}
+                  
+                </div>
                 
-                <img className="w-3/5 pl-10" src={house}/>
-                <div className="building-info-section flex flex-col items-center justify-center w-full">
+                <div className="building-info-section flex flex-col items-center justify-center w-4/5 md:w-1/2">
                   <p>Company: Thoroubghbred Inc</p>
                   <p>会社名：株式会社サラブレッド</p>
                   <p>Company URL: <a className="text-blue-300 hover:text-blue-500" href='https://tb-one.net/'>https://tb-one.net/</a> </p>
