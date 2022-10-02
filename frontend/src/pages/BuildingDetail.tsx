@@ -2,6 +2,7 @@ import '../detail.css'
 import house from "../assets/house.png"
 import kakurega from "../assets/kakurega.png"
 import { FadeIn } from '../animations/FadeIn'
+import { PaymentForm } from '../components/PaymentForm'
 
 export const BuildingDetail = ()=>{
   const images = [kakurega, house]
@@ -27,19 +28,24 @@ export const BuildingDetail = ()=>{
                 </div>
                 
                 <div className="building-info-section flex flex-col items-center justify-center w-4/5 md:w-1/2">
-                  <p>Company: Thoroubghbred Inc</p>
-                  <p>会社名：株式会社サラブレッド</p>
-                  <p>Company URL: <a className="text-blue-300 hover:text-blue-500" href='https://tb-one.net/'>https://tb-one.net/</a> </p>
-                  <p className='mt-5'>Building name: Hotel Kakurega in Narita</p>
+                  
                   <p>建物名：成田ホテル　隠れ家</p>
-                  <p>Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p>
+                  <p>会社名：株式会社サラブレッド</p>
+                  <p>会社URL：<a className="text-blue-300 hover:text-blue-500" href='https://tb-one.net/'>https://tb-one.net/</a></p>
                   <p>住所：千葉県成田市幸町982-1</p>
-                  <p>Price: 15000yen/day</p>
                   <p>宿泊料金：15000円/一泊</p>
+
+                  <p className='mt-5'>Building name: Hotel Kakurega in Narita</p>
+                  <p >Company: Thoroubghbred Inc</p>
+                  <p>Company URL: <a className="text-blue-300 hover:text-blue-500" href='https://tb-one.net/'>https://tb-one.net/</a> </p>
+                  <p>Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p> 
+                  <p>Price: 15000yen/day</p>
+                  
                 </div>
                 
               </div>
               </FadeIn>
+              <PaymentForm/>
             </section>
         </body>
     )

@@ -113,8 +113,8 @@ export const Contact = () => {
               </div>
             </div>
             <hr/>
-            <div className="w-full flex flex-row justify-center mt-5">
-            <button type="submit" className="rounded-lg border-2 py-2 px-5 text-2xl shadow-lg hover:shadow-none hover:bg-gray-500 hover:text-white">Send</button>
+            <div className="flex flex-row justify-center mt-5">
+              <button type="submit" className="w-auto m-0  text-gray-500 hover:text-white font-light rounded-lg border-2 py-2 px-5 text-2xl shadow-lg hover:shadow-none hover:bg-gray-500 ">Send</button>
             </div>
           </form>
           {/*<Alert variant="primary"  children='Succeeded to send mail!'/>*/}
