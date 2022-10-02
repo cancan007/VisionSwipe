@@ -52,7 +52,7 @@ export const Landing = ()=>{
               <p className="text-5xl m-2">About us</p>
             </div>
             </a>
-            <a href="#" className='hover:opacity-40 cursor-pointer ml-5'>
+            <a href="/contact" className='hover:opacity-40 cursor-pointer ml-5'>
             <div className="contact-section">
               <p className="text-5xl m-2">Contact</p>
             </div>
