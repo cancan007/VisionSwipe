@@ -1,0 +1,12 @@
+
+
+/*
+.name-form,
+.mail-form{
+    height: 100px;
+}*/
+
+.home-letter::after{
+   margin:0 .5em;
+    content:">";
+}

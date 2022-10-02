@@ -18,6 +18,7 @@ export class BuildingsService {
     }
 
     async fetchBuildings(dto:FetchBuildings):Promise<Array<BuildingEnt>>{
-        return this.buildingModel.find().exec();
+        const buildings = this.buildingModel.find().exec();
+        return buildings;
     }
 }
