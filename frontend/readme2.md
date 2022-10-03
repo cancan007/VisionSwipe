@@ -6,3 +6,6 @@ npm i react-bootstrap
 
 // to implement stripe gateway
 npm i @stripe/react-stripe-js @stripe/stripe-js axios
+
+npm install --save @fullcalendar/react @fullcalendar/daygrid
+ npm i @fullcalendar/interaction
