@@ -4,25 +4,81 @@ import kakurega from "../assets/kakurega.png"
 import { FadeIn } from '../animations/FadeIn'
 //import { PaymentForm } from '../components/PaymentForm'
 import CalendarData from '../components/Calendar'
-import {useState, useCallback} from "react"
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import {useState, useRef, useEffect} from "react"
+import emailjs from 'emailjs-com';
+import Alert from '../components/Alert';
+
 
 export const BuildingDetail = ()=>{
   const images = [kakurega, house]
+  const [name, setName] = useState<string>()
+  const [mail, setMail] = useState<string>()
   const [dates, setDates] = useState<Array<string>>()
-  const [flag, setFlag] = useState<boolean>(false)
+  const [dates_message, setDatesMessage] = useState<string>();
+  const [number, setNumber] = useState<number>();
+  const [price, setPrice] = useState<string>();
+  const [flagCalendar, setFlagCalendar] =useState<boolean>(false);
+    const [flag, setFlag] = useState<boolean>(false);
+  const [flag2, setFlag2] = useState<boolean>(false);
+    const [flag3, setFlag3] = useState<boolean>(false);
+  const templateId = process.env.REACT_APP_EMAILJS_BOOK_TEMPID;
+  const serviceId = process.env.REACT_APP_EMAILJS_SERVICEID;
+  const userId = process.env.REACT_APP_EMAILJS_USERID;
+  const suceeded_message = "Succeeded to book!"
+    const failed_message = "Failed to book";
+    const missed_message = "Please fill all forms";
+  const bookRef:any = useRef(null)
+
   const handleSelected = (arg: any)=>{
+    console.log(arg.startStr, arg.endStr)
     setDates([arg.startStr, arg.endStr])
+    setDatesMessage(`${arg.startStr} ~ ${arg.endStr}` )
   };
 
   const handleCalendar = (e:any) =>{
     e.preventDefault();
-    if(flag===false){
-      setFlag(true);
+    if(flagCalendar===false){
+      setFlagCalendar(true);
     }else if(dates && dates.length > 0){
-      setFlag(false)
+      setFlagCalendar(false)
     }
   }
+
+  const sendEmail = (e:any)=>{
+    e.preventDefault();
+    if(!templateId || !serviceId || !userId) return console.error("You don't have env value")
+    
+    if(name && mail && dates && number && price){
+        emailjs.sendForm(
+            serviceId,
+            templateId,
+            bookRef.current,
+            userId
+        ).then(()=>{
+          setName("")
+            setMail("")
+            setDates([])
+            setDatesMessage("")
+            setNumber(0)
+            setPrice("")
+            setFlag(true)
+            
+        }).catch(()=>setFlag2(true))
+    }else{
+        setFlag3(true)
+    }
+  }
+
+  useEffect(()=>{
+    if(flag === true || flag2 === true || flag3 === true){
+        setTimeout(()=>{
+            setFlag(false)
+            setFlag2(false)
+            setFlag3(false)
+        },5000)
+    }
+
+  },[flag, flag2, flag3])
 
     return(
         <body>
@@ -64,10 +120,20 @@ export const BuildingDetail = ()=>{
               </FadeIn>
               
                 <p className="mt-4 text-black text-5xl">Book form</p>
-                <form className="mt-2 w-4/5 md:w-2/3 flex flex-col justify-center items-center">
+                <form onSubmit={(e:any)=>sendEmail(e)} ref={bookRef} className="mt-2 w-4/5 md:w-2/3 flex flex-col justify-center items-center text-black">
+                  <input name="from_name" value={name} onChange={(e:any)=>setName(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="text" placeholder='Your name'/>
+                  <input name="customer_email" value={mail} onChange={(e:any)=>setMail(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="email" placeholder='Your email'/>
+                  <select name="booked_dates" className="border-gray-200 border-2 rounded-lg p-3" value={dates_message} onClick={handleCalendar}>
+                {dates ? (
+                  <option>{dates_message}</option>
+                ):(
+                  <option>Select dates</option>
+                )}
+              </select>
                 <div className="text-black mt-2">
-                {flag ? (
+                {flagCalendar ? (
                    <CalendarData 
+                   
                    initialView="dayGridMonth"
                    /*select={(dateInfo:any) => {
                      console.log(dateInfo.start) //start of the range the calendar date
@@ -80,9 +146,13 @@ export const BuildingDetail = ()=>{
                 )}
               
               </div>
-                  <button onClick={handleCalendar} className="text-sm text-black px-3 py-1 border-2 rounded-lg" children={dates ? `${dates[0]} ~ ${dates[1]}` : "Select dates"}/>
-                  <input className="my-2 text-center text-black" type="number" placeholder='Number of people'/>
-                <select className="my-2 form-select form-select-lg mb-3
+              
+
+             {/* <button name="booked_dates" value={dates_message} onClick={handleCalendar} className="text-sm text-black px-3 py-1 border-2 rounded-lg" children={dates ? `${dates[0]} ~ ${dates[1]}` : "Select dates"}/>*/}
+              
+                  
+                  <input name="customer_number" value={number} onChange={(e:any)=>setNumber(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="number" placeholder='Number of people'/>
+                <select name="room_fee" value={price} onChange={(e:any)=>setPrice(e.target.value)} className="my-2 form-select form-select-lg mb-3
                     appearance-none
                     block
                     w-auto
@@ -98,14 +168,24 @@ export const BuildingDetail = ()=>{
                     ease-in-out
                     m-0
                   focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label=".form-select-lg example">
-                    <option hidden>Select price</option>
+                    <option value="" hidden>Select price</option>
                     <option value="6500">6500yen</option>
                     <option value="9500">9500yen</option>
                     <option value="13500">13500yen</option>
                     <option value="18500">18500yen</option>
                   </select>
-                  <button type="submit" className="px-3 py-1 shadow-md hover:shadow-none text-black hover:text-red-300 rounded-lg border-2 hover:bg-gray-300">Book</button>
+                  <button type="submit" className="px-3 py-1 shadow-md hover:shadow-none hover:text-red-300 rounded-lg border-2 bg-blue-500 text-white hover:bg-blue-300">Book</button>
+                  {flag ? (
+                <Alert className="fixed bottom-2" onClose={()=>setFlag(false)} variant="primary" dismissible children={suceeded_message}/>
+            ) : <></>}
+            {flag2 ? (
+                <Alert className="fixed bottom-2" onClose={()=>setFlag2(false)} variant="danger" dismissible children={failed_message}/>
+            ): <></>}
+            {flag3 ? (
+                <Alert className="fixed bottom-2" onClose={()=>setFlag3(false)} variant="danger" dismissible children={missed_message}/>
+            ): <></>}
                 </form>
+                
               
               {/*<PaymentForm/>*/}
             </section>
