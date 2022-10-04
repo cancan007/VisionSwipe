@@ -4,7 +4,7 @@ import { BuildingsService } from './buildings.service';
 import { AddBuilding, FetchBuildings } from './dto/building.dto';
 import { BuildingEnt } from './entity/building.entity';
 
-@Controller('buildings')
+@Controller('api-buildings')
 export class BuildingsController {
     constructor(private buildingsService: BuildingsService){}
 
