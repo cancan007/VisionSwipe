@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';  // to let nest realize developme
 import { configuration } from './config/configuration';
 import { BuildingsModule } from './buildings/buildings.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { StripeModule } from './stripe/stripe.module';
 
 
 @Module({
@@ -14,7 +15,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     ConfigModule.forRoot({
     envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
     load: [configuration] 
-}), BuildingsModule],
+}), BuildingsModule, StripeModule],
   controllers: [AppController],
   providers: [AppService],
 })
