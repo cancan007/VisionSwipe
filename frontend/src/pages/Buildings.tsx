@@ -112,6 +112,9 @@ export const Buildings =() =>{
               </a>
               
             </section>
+            <footer className="flex flex-row justify-center mt-10">
+          <p className="text-black text-sm">CopyRight (C) 2022 VisionSwipe All rights reserved.</p>
+        </footer>
         </body>
     )
 }

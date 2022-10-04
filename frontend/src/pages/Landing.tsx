@@ -62,6 +62,8 @@ export const Landing = ()=>{
         </section>
         <footer className="mt-20 main-footer">
         
+          <p className="text-sm">CopyRight (C) 2022 VisionSwipe All rights reserved.</p>
+        
       </footer>
       </body>
     )

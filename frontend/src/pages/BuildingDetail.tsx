@@ -1,6 +1,7 @@
 import '../detail.css'
 import house from "../assets/house.png"
 import kakurega from "../assets/kakurega.png"
+import serviceImage from "../assets/service-image.png"
 import { FadeIn } from '../animations/FadeIn'
 //import { PaymentForm } from '../components/PaymentForm'
 import CalendarData from '../components/Calendar'
@@ -10,7 +11,7 @@ import Alert from '../components/Alert';
 
 
 export const BuildingDetail = ()=>{
-  const images = [kakurega, house]
+  const images = [kakurega, house, serviceImage]
   const [name, setName] = useState<string>()
   const [mail, setMail] = useState<string>()
   const [dates, setDates] = useState<Array<string>>()
@@ -28,6 +29,15 @@ export const BuildingDetail = ()=>{
     const failed_message = "Failed to book";
     const missed_message = "Please fill all forms";
   const bookRef:any = useRef(null)
+
+  const scrollElement:any = useRef(null)
+
+    const scrollLeft = () => {
+        scrollElement.current.scrollLeft -= scrollElement.current.offsetWidth
+    }
+    const scrollRight = () =>{
+      scrollElement.current.scrollLeft += scrollElement.current.offsetWidth
+    }
 
   const handleSelected = (arg: any)=>{
     console.log(arg.startStr, arg.endStr)
@@ -90,17 +100,19 @@ export const BuildingDetail = ()=>{
             </header>
             <section className="flex flex-col items-center ">
                 <FadeIn>
-              <div className="flex flex-col items-center md:justify-between w-full mt-20 md:flex-row">
-                <div id="slider" className="flex flex-row w-4/5 md:w-1/2 h-auto mb-5 md:mb-0 md:ml-10 overflow-x-auto scroll">
+              <div className="flex flex-col items-center md:flex-row md:justify-center w-full mt-20 ">
+                <div className=" flex flex-row items-center w-full md:w-1/2 h-auto px-1">
+              <button onClick={()=>scrollLeft()} className="h-0 w-0 border-y-8 border-y-transparent border-r-[16px] border-r-gray-600 hover:border-r-gray-300"></button>
+                <div ref={scrollElement} id="slider" className="flex flex-row  mb-5 md:mb-0 mx-1 overflow-x-scroll scroll-smooth">
                   {images.map((image,i)=>{
                     return(
                       <img className="" src={image}/>
                     )
                   })}
-                  
                 </div>
-                
-                <div className="building-info-section flex flex-col items-center justify-center w-4/5 md:w-1/2">
+                <button onClick={()=>scrollRight()} className="h-0 w-0 border-y-8 border-y-transparent border-l-[16px] border-l-gray-600 hover:border-l-gray-300"></button>
+                </div>
+                <div className="building-info-section flex flex-col items-center justify-center w-4/5 md:w-1/2 p-1">
                   
                   <p>建物名：成田ホテル　隠れ家</p>
                   <p>会社名：株式会社サラブレッド</p>
@@ -189,6 +201,9 @@ export const BuildingDetail = ()=>{
               
               {/*<PaymentForm/>*/}
             </section>
+            <footer className="flex flex-row justify-center mt-10">
+          <p className="text-black text-sm">CopyRight (C) 2022 VisionSwipe All rights reserved.</p>
+        </footer>
         </body>
     )
 }
