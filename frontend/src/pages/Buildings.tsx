@@ -1,6 +1,7 @@
 import "../buildings.css"
 import visionSwipe from "../assets/vision-swipe.png"
 import house from "../assets/house.png"
+import kakurega from "../assets/kakurega.png"
 import { FadeIn } from "../animations/FadeIn"
 
 
@@ -76,37 +77,14 @@ export const Buildings =() =>{
                <a href="" className='hover:text-blue-300'>Next</a>
              </div>
               <a href="/kakurega" className="w-full px-2 md:w-3/5 h-auto">
-              <div className="flex flex-row justify-start  bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50">
-                <img alt="" src={house} className="w-1/3 h-auto rounded-l-lg"/>
+              <div className="flex flex-row h-[144px] justify-start bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50 overflow-y-auto">
+                <img alt="" src={kakurega} className="w-1/3 h-auto object-cover rounded-l-lg"/>
                 <div className="flex flex-col items-start justify-center text-black ml-5">
                     <p className="text-sm">Building name: Hotel Kakurega in Narita</p>
                     <p className="text-sm">Company: Thoroughbred Inc.</p>
                     <p className="text-sm">Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p>
-                    <p className="text-sm">Comment: Good building</p>
-                </div>
-              </div>
-              </a>
-              
-              <a href="/kakurega" className="w-full px-2 md:w-3/5 h-auto">
-              <div className="flex flex-row justify-start  bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50">
-                <img alt="" src={house} className="w-1/3 h-auto rounded-l-lg"/>
-                <div className="flex flex-col items-start justify-center text-black ml-5">
-                    <p className="text-sm">Building name: Hotel Kakurega in Narita</p>
-                    <p className="text-sm">Company: Thoroughbred Inc.</p>
-                    <p className="text-sm">Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p>
-                    <p className="text-sm">Comment: Good building</p>
-                </div>
-              </div>
-              </a>
-              
-              <a href="/kakurega" className="w-full px-2 md:w-3/5 h-auto">
-              <div className="flex flex-row justify-start  bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50">
-                <img alt="" src={house} className="w-1/3 h-auto rounded-l-lg"/>
-                <div className="flex flex-col items-start justify-center text-black ml-5">
-                    <p className="text-sm">Building name: Hotel Kakurega in Narita</p>
-                    <p className="text-sm">Company: Thoroughbred Inc.</p>
-                    <p className="text-sm">Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p>
-                    <p className="text-sm">Comment: Good building</p>
+                    <p className="text-sm">Comment: Hello! In our hotel, there are hinokiburos which are bathtubs made of Hinoki tree
+                     in all rooms, so you can soak in and enjoy the good smell of nature.</p>
                 </div>
               </div>
               </a>

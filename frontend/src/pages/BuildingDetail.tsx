@@ -1,7 +1,7 @@
 import '../detail.css'
-import house from "../assets/house.png"
+
 import kakurega from "../assets/kakurega.png"
-import serviceImage from "../assets/service-image.png"
+
 import { FadeIn } from '../animations/FadeIn'
 //import { PaymentForm } from '../components/PaymentForm'
 import CalendarData from '../components/Calendar'
@@ -11,7 +11,9 @@ import Alert from '../components/Alert';
 
 
 export const BuildingDetail = ()=>{
-  const images = [kakurega, house, serviceImage]
+  const images = [kakurega, "https://res.cloudinary.com/dbfpsigax/image/upload/v1664712298/%E6%88%90%E7%94%B0%E3%83%9B%E3%83%86%E3%83%AB%E9%9A%A0%E3%82%8C%E5%AE%B6/201_k6tewz.jpg",  "https://res.cloudinary.com/dbfpsigax/image/upload/v1664891514/%E6%88%90%E7%94%B0%E3%83%9B%E3%83%86%E3%83%AB%E9%9A%A0%E3%82%8C%E5%AE%B6/106_qtpruk.jpg","https://res.cloudinary.com/dbfpsigax/image/upload/v1664712249/%E6%88%90%E7%94%B0%E3%83%9B%E3%83%86%E3%83%AB%E9%9A%A0%E3%82%8C%E5%AE%B6/DSC_0113_nr320r.jpg"
+, "https://res.cloudinary.com/dbfpsigax/image/upload/v1664891431/%E6%88%90%E7%94%B0%E3%83%9B%E3%83%86%E3%83%AB%E9%9A%A0%E3%82%8C%E5%AE%B6/%E3%83%92%E3%83%8E%E3%82%AD%E9%A2%A8%E5%91%82_gzgg3v.jpg",
+"https://res.cloudinary.com/dbfpsigax/image/upload/v1664891471/%E6%88%90%E7%94%B0%E3%83%9B%E3%83%86%E3%83%AB%E9%9A%A0%E3%82%8C%E5%AE%B6/%E8%89%B2%E5%BD%A9%E8%A3%9C%E6%AD%A3%EF%BC%94_kiypf4.png", "https://res.cloudinary.com/dbfpsigax/image/upload/v1664712223/%E6%88%90%E7%94%B0%E3%83%9B%E3%83%86%E3%83%AB%E9%9A%A0%E3%82%8C%E5%AE%B6/%E5%AE%B6%E5%85%B7%E5%85%A5%E3%82%8A%E9%83%A8%E5%B1%8B_gspqis.jpg"]
   const [name, setName] = useState<string>()
   const [mail, setMail] = useState<string>()
   const [dates, setDates] = useState<Array<string>>()
@@ -101,12 +103,12 @@ export const BuildingDetail = ()=>{
             <section className="flex flex-col items-center ">
                 <FadeIn>
               <div className="flex flex-col items-center md:flex-row md:justify-center w-full mt-20 ">
-                <div className=" flex flex-row items-center w-full md:w-1/2 h-auto px-1">
+                <div className=" flex flex-row items-center w-full md:w-1/2 h-auto px-1 ">
               <button onClick={()=>scrollLeft()} className="h-0 w-0 border-y-8 border-y-transparent border-r-[16px] border-r-gray-600 hover:border-r-gray-300"></button>
                 <div ref={scrollElement} id="slider" className="flex flex-row  mb-5 md:mb-0 mx-1 overflow-x-scroll scroll-smooth">
                   {images.map((image,i)=>{
                     return(
-                      <img className="" src={image}/>
+                      <img className="object-contain max-h-[500px]" src={image}/>
                     )
                   })}
                 </div>
@@ -131,10 +133,10 @@ export const BuildingDetail = ()=>{
               </div>
               </FadeIn>
               
-                <p className="mt-4 text-black text-5xl">Book form</p>
+                <p className="mt-4 text-black text-3xl">Book form (予約フォーム)</p>
                 <form onSubmit={(e:any)=>sendEmail(e)} ref={bookRef} className="mt-2 w-4/5 md:w-2/3 flex flex-col justify-center items-center text-black">
-                  <input name="from_name" value={name} onChange={(e:any)=>setName(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="text" placeholder='Your name'/>
-                  <input name="customer_email" value={mail} onChange={(e:any)=>setMail(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="email" placeholder='Your email'/>
+                  <input name="from_name" value={name} onChange={(e:any)=>setName(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="text" placeholder='Your name(お名前)'/>
+                  <input name="customer_email" value={mail} onChange={(e:any)=>setMail(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="email" placeholder='Your email(メールアドレス)'/>
                   <select name="booked_dates" className="border-gray-200 border-2 rounded-lg p-3" value={dates_message} onClick={handleCalendar}>
                 {dates ? (
                   <option>{dates_message}</option>
@@ -163,7 +165,7 @@ export const BuildingDetail = ()=>{
              {/* <button name="booked_dates" value={dates_message} onClick={handleCalendar} className="text-sm text-black px-3 py-1 border-2 rounded-lg" children={dates ? `${dates[0]} ~ ${dates[1]}` : "Select dates"}/>*/}
               
                   
-                  <input name="customer_number" value={number} onChange={(e:any)=>setNumber(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="number" placeholder='Number of people'/>
+                  <input name="customer_number" value={number} onChange={(e:any)=>setNumber(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="number" placeholder='Number of people(人数)'/>
                 <select name="room_fee" value={price} onChange={(e:any)=>setPrice(e.target.value)} className="my-2 form-select form-select-lg mb-3
                     appearance-none
                     block
@@ -180,13 +182,13 @@ export const BuildingDetail = ()=>{
                     ease-in-out
                     m-0
                   focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label=".form-select-lg example">
-                    <option value="" hidden>Select price</option>
+                    <option value="" hidden>Select price(料金タイプ)</option>
                     <option value="6500">6500yen</option>
                     <option value="9500">9500yen</option>
                     <option value="13500">13500yen</option>
                     <option value="18500">18500yen</option>
                   </select>
-                  <button type="submit" className="px-3 py-1 shadow-md hover:shadow-none hover:text-red-300 rounded-lg border-2 bg-blue-500 text-white hover:bg-blue-300">Book</button>
+                  <button type="submit" className="px-3 py-1 shadow-md hover:shadow-none hover:text-red-300 rounded-lg border-2 bg-blue-500 text-white hover:bg-blue-300">Book(予約)</button>
                   {flag ? (
                 <Alert className="fixed bottom-2" onClose={()=>setFlag(false)} variant="primary" dismissible children={suceeded_message}/>
             ) : <></>}
