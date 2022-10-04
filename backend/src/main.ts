@@ -16,6 +16,7 @@ async function bootstrap() {
     rawBody: true,
   }*/
   );
+  app.enableCors(); // protection
   app.useStaticAssets(join(__dirname, '../frontend/build'));
   await app.listen(process.env.PORT || 4000);
 }
