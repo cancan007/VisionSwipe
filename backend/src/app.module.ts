@@ -10,12 +10,15 @@ import { StripeModule } from './stripe/stripe.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
+const uri = process.env.NODE_ENV === 
+"production" ? `mongodb+srv://shota:${process.env.MONGODB_PASSWORD}@cluster-free.mmct5.mongodb.net/?retryWrites=true&w=majority`
+             : 'mongodb://localhost:27017/visionswipe'
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../frontend/build'),
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/visionswipe'),
+    MongooseModule.forRoot(uri),
     ConfigModule.forRoot({
     envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
     load: [configuration] 
