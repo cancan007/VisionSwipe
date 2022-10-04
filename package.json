@@ -1,0 +1,20 @@
+{
+  "name": "visionswipe",
+  "version": "1.0.0",
+  "description": "vision swipe site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "cd frontend && npm install && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cancan007/VisionSwipe.git"
+  },
+  "author": "shota",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cancan007/VisionSwipe/issues"
+  },
+  "homepage": "https://github.com/cancan007/VisionSwipe#readme"
+}
