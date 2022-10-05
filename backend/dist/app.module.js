@@ -25,11 +25,15 @@ AppModule = __decorate([
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '../../frontend/build'),
             }),
-            mongoose_1.MongooseModule.forRoot('mongodb://localhost:27017/visionswipe'),
             config_1.ConfigModule.forRoot({
-                envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
-                load: [configuration_1.configuration]
-            }), buildings_module_1.BuildingsModule, stripe_module_1.StripeModule
+                envFilePath: `./src/config/env/${process.env.NODE_ENV}.env`,
+                load: [configuration_1.configuration],
+                isGlobal: true
+            }),
+            mongoose_1.MongooseModule.forRoot(((0, configuration_1.configuration)().NODE_ENV ===
+                'production') ? (0, configuration_1.configuration)().MONGODB_URI
+                : 'mongodb://localhost:27017/visionswipe', { useNewUrlParser: true, useUnifiedTopology: true }),
+            buildings_module_1.BuildingsModule, stripe_module_1.StripeModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

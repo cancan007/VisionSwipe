@@ -7,3 +7,5 @@ mongodb compassを使うにはmongoDBを起動する必要あり。
      (brew services stop mongodb-community)
 
 npm i --save @nestjs/platform-fastify
+
+to use env variables, you should put ConfigModule first before using env variables

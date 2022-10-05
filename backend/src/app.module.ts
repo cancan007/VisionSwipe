@@ -10,19 +10,24 @@ import { StripeModule } from './stripe/stripe.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-const uri = process.env.NODE_ENV === 
-"production" ? `mongodb+srv://shota:${process.env.MONGODB_PASSWORD}@cluster-free.mmct5.mongodb.net/?retryWrites=true&w=majority/visionswipe-buildings`
-             : 'mongodb://localhost:27017/visionswipe'
+
+
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../frontend/build'),
     }),
-    MongooseModule.forRoot(uri),
+    
     ConfigModule.forRoot({
-    envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
-    load: [configuration] 
-}), BuildingsModule, StripeModule],
+    envFilePath: `./src/config/env/${process.env.NODE_ENV}.env`,
+    load: [configuration],
+    isGlobal: true
+}),
+// to use env variables, you should put ConfigModule first before using env variables
+MongooseModule.forRoot((configuration().NODE_ENV === 
+      'production') ? configuration().MONGODB_URI
+        :'mongodb://localhost:27017/visionswipe',{useNewUrlParser: true , useUnifiedTopology: true}),
+ BuildingsModule, StripeModule],
   controllers: [AppController],
   providers: [AppService],
 })

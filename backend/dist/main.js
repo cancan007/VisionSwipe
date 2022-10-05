@@ -10,4 +10,6 @@ async function bootstrap() {
     await app.listen(process.env.PORT || 4000);
 }
 bootstrap();
+console.log(process.env.MONGODB_URI);
+console.log(process.env.PORT);
 //# sourceMappingURL=main.js.map

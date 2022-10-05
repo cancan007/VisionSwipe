@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import mongoose from 'mongoose';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -16,8 +18,15 @@ async function bootstrap() {
     rawBody: true,
   }*/
   );
+  /*
+  if(process.env.NODE_ENV==="production"){
+    app.use(mongoose.connect(process.env.MONGODB_URI))
+  }*/
+  
   app.enableCors(); // protection
   app.useStaticAssets(join(__dirname, '../frontend/build'));
   await app.listen(process.env.PORT || 4000);
 }
 bootstrap();
+console.log(process.env.MONGODB_URI);
+console.log(process.env.PORT);
