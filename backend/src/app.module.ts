@@ -9,6 +9,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { StripeModule } from './stripe/stripe.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { KakuregaController } from './kakurega/kakurega.controller';
+import { KakuregaService } from './kakurega/kakurega.service';
+import { KakuregaModule } from './kakurega/kakurega.module';
 
 
 
@@ -27,7 +30,7 @@ import { join } from 'path';
 MongooseModule.forRoot((configuration().NODE_ENV === 
       'production') ? configuration().MONGODB_URI
         :'mongodb://localhost:27017/visionswipe',{useNewUrlParser: true , useUnifiedTopology: true}),
- BuildingsModule, StripeModule],
+ BuildingsModule, StripeModule, KakuregaModule],
   controllers: [AppController],
   providers: [AppService],
 })

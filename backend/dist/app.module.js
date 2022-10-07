@@ -17,6 +17,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const stripe_module_1 = require("./stripe/stripe.module");
 const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
+const kakurega_module_1 = require("./kakurega/kakurega.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -33,7 +34,7 @@ AppModule = __decorate([
             mongoose_1.MongooseModule.forRoot(((0, configuration_1.configuration)().NODE_ENV ===
                 'production') ? (0, configuration_1.configuration)().MONGODB_URI
                 : 'mongodb://localhost:27017/visionswipe', { useNewUrlParser: true, useUnifiedTopology: true }),
-            buildings_module_1.BuildingsModule, stripe_module_1.StripeModule
+            buildings_module_1.BuildingsModule, stripe_module_1.StripeModule, kakurega_module_1.KakuregaModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
