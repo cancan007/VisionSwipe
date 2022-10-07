@@ -5,9 +5,10 @@ import kakurega from "../assets/kakurega.png"
 import { FadeIn } from '../animations/FadeIn'
 //import { PaymentForm } from '../components/PaymentForm'
 import CalendarData from '../components/Calendar'
-import {useState, useRef, useEffect} from "react"
+import {useState, useRef, useEffect, useLayoutEffect} from "react"
 import emailjs from 'emailjs-com';
 import Alert from '../components/Alert';
+import { fetchKakuregaData } from '../api/interactions'
 
 
 export const BuildingDetail = ()=>{
@@ -24,6 +25,13 @@ export const BuildingDetail = ()=>{
     const [flag, setFlag] = useState<boolean>(false);
   const [flag2, setFlag2] = useState<boolean>(false);
     const [flag3, setFlag3] = useState<boolean>(false);
+
+    const [season, setSeason] = useState<number>()
+  const [prices1, setPrices1] = useState<Array<number>>([]);
+  const [prices2, setPrices2] = useState<Array<number>>([]);
+  const [prices3, setPrices3] = useState<Array<number>>([]);
+  const [rooms, setRooms] = useState<Array<number>>([]);
+
   const templateId = process.env.REACT_APP_EMAILJS_BOOK_TEMPID;
   const serviceId = process.env.REACT_APP_EMAILJS_SERVICEID;
   const userId = process.env.REACT_APP_EMAILJS_USERID;
@@ -81,6 +89,18 @@ export const BuildingDetail = ()=>{
     }
   }
 
+  useLayoutEffect(()=>{
+    (async()=>{ fetchKakuregaData()
+      .then(res=>{
+          setSeason(res.season);
+          setPrices1(res.prices[0]);
+          setPrices2(res.prices[1]);
+          setPrices3(res.prices[2]);
+          setRooms(res.rooms);
+      }).catch(err=>console.error(err));
+    })();
+  },[])
+
   useEffect(()=>{
     if(flag === true || flag2 === true || flag3 === true){
         setTimeout(()=>{
@@ -96,9 +116,14 @@ export const BuildingDetail = ()=>{
         <body>
             <header className="building-detail-header flex flex-row justify-between">
                 <p className="text-5xl pt-5 pl-10 fadeIn">Building detail</p>
+                <div className="flex flex-row items-center ">
+                  <a href="/kakurega/admin" className="hover:text-blue-200 focused:text-blue-500">
+                    <p className="text-xl pr-10 pt-5">Admin</p>
+                  </a>
                 <a href="/" className="hover:text-blue-200 focused:text-blue-500">
                     <p className="text-xl pr-10 pt-5">Home</p>
                 </a>
+                </div>
             </header>
             <section className="flex flex-col items-center ">
                 <FadeIn>

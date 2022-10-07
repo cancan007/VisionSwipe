@@ -8,6 +8,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { configuration } from './config/configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -22,8 +23,19 @@ async function bootstrap() {
   if(process.env.NODE_ENV==="production"){
     app.use(mongoose.connect(process.env.MONGODB_URI))
   }*/
+  if(configuration().NODE_ENV === "development"){
+    app.enableCors({
+      origin:["http://localhost:3000"],
+      allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept'
+    })
+  } else if(configuration().NODE_ENV === "production"){
+    app.enableCors(/*{
+      origin: '*',
+      allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+  }*/); // protection
+  }
   
-  app.enableCors(); // protection
+  
   app.useStaticAssets(join(__dirname, '../frontend/build'));
   await app.listen(process.env.PORT || 4000);
 }

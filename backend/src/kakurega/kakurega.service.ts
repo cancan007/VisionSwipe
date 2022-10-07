@@ -23,10 +23,10 @@ export class KakuregaService {
      }
  
      async changeData(dto:ChangeData):Promise<KakuregaEnt>{
-         const data = await this.kakuregaModel.findOne(/*{_id: dto._id}*/);
-         const {season:ds, prices:dp, rooms:dr} = dto;
-         const {season, prices, rooms} = data;
-         if(ds != season || dp != prices || dr != rooms){
+         const data = await this.kakuregaModel.findOne();
+         const {season:ds,prices:dp, rooms:dr} = dto;
+         const {season,prices, rooms} = data;
+         if( ds!=season || dp != prices || dr != rooms){
             data.season = ds;
             data.prices = dp;
             data.rooms = dr;

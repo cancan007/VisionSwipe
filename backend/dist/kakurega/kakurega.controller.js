@@ -20,14 +20,16 @@ let KakuregaController = class KakuregaController {
     constructor(kakuregaService) {
         this.kakuregaService = kakuregaService;
     }
-    async fetchData() {
-        return await this.kakuregaService.fetchData();
+    async fetchData(res) {
+        const data = await this.kakuregaService.fetchData();
+        res.json(data);
     }
     async updateData(body) {
         const data = await this.kakuregaService.fetchData();
-        if (data)
+        if (data) {
             return this.kakuregaService.changeData(body);
-        else if (body.season && body.prices && body.rooms) {
+        }
+        else {
             const { season, prices, rooms } = body;
             return this.kakuregaService.saveData({ season, prices, rooms });
         }
@@ -35,8 +37,9 @@ let KakuregaController = class KakuregaController {
 };
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], KakuregaController.prototype, "fetchData", null);
 __decorate([
