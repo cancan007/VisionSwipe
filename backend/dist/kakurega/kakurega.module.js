@@ -16,7 +16,7 @@ let KakuregaModule = class KakuregaModule {
 };
 KakuregaModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: "kakurega", schema: kakurega_1.KakuregaSchema }])],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: "kakurega", schema: kakurega_1.KakuregaSchema }, { name: "kakurega-room", schema: kakurega_1.KakuregaRoomDataSchema }])],
         controllers: [kakurega_controller_1.KakuregaController],
         providers: [kakurega_service_1.KakuregaService],
     })

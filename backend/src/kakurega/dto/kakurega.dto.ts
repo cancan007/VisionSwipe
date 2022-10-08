@@ -11,3 +11,24 @@ export class ChangeData{
     prices?:[[number]];
     rooms?:[number];
 }
+
+export class FetchRoomData{
+    year?:number;
+    month?:number;
+    day?:number;
+}
+
+export class SaveRoomData{
+    year:number;
+    month:number;
+    day:number;
+    rooms:number[];
+}
+
+export class ChangeRoomData{
+    //_id?:string;
+    year:number;
+    month:number;
+    day:number;
+    rooms:number[];
+}

@@ -24,6 +24,11 @@ let KakuregaController = class KakuregaController {
         const data = await this.kakuregaService.fetchData();
         res.json(data);
     }
+    async fetchRoomData(year, month, day, res) {
+        const params = { year, month, day };
+        const datas = await this.kakuregaService.fetchRoomData(params);
+        res.json(datas);
+    }
     async updateData(body) {
         const data = await this.kakuregaService.fetchData();
         if (data) {
@@ -34,6 +39,10 @@ let KakuregaController = class KakuregaController {
             return this.kakuregaService.saveData({ season, prices, rooms });
         }
     }
+    async updateRoomData(body, res) {
+        const data = await this.kakuregaService.changeRoomData(body);
+        return res.json(data);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -43,12 +52,30 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], KakuregaController.prototype, "fetchData", null);
 __decorate([
+    (0, common_1.Get)('room'),
+    __param(0, (0, common_1.Query)('year')),
+    __param(1, (0, common_1.Query)('month')),
+    __param(2, (0, common_1.Query)('day')),
+    __param(3, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Number, Object]),
+    __metadata("design:returntype", Promise)
+], KakuregaController.prototype, "fetchRoomData", null);
+__decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [kakurega_dto_1.ChangeData]),
     __metadata("design:returntype", Promise)
 ], KakuregaController.prototype, "updateData", null);
+__decorate([
+    (0, common_1.Post)('room'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [kakurega_dto_1.ChangeRoomData, Object]),
+    __metadata("design:returntype", Promise)
+], KakuregaController.prototype, "updateRoomData", null);
 KakuregaController = __decorate([
     (0, common_1.Controller)('api-kakurega'),
     __metadata("design:paramtypes", [kakurega_service_1.KakuregaService])

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KakuregaSchema = exports.Kakurega = void 0;
+exports.KakuregaRoomDataSchema = exports.KakuregaSchema = exports.KakuregaRoomData = exports.Kakurega = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 let Kakurega = class Kakurega {
 };
@@ -31,9 +31,44 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], Kakurega.prototype, "rooms", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Array)
+], Kakurega.prototype, "roomDatas", void 0);
 Kakurega = __decorate([
     (0, mongoose_1.Schema)({ collection: "kakurega" })
 ], Kakurega);
 exports.Kakurega = Kakurega;
+let KakuregaRoomData = class KakuregaRoomData {
+};
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true
+    }),
+    __metadata("design:type", Number)
+], KakuregaRoomData.prototype, "year", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true
+    }),
+    __metadata("design:type", Number)
+], KakuregaRoomData.prototype, "month", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true
+    }),
+    __metadata("design:type", Number)
+], KakuregaRoomData.prototype, "day", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true
+    }),
+    __metadata("design:type", Array)
+], KakuregaRoomData.prototype, "rooms", void 0);
+KakuregaRoomData = __decorate([
+    (0, mongoose_1.Schema)({ collection: "kakurega-room" })
+], KakuregaRoomData);
+exports.KakuregaRoomData = KakuregaRoomData;
 exports.KakuregaSchema = mongoose_1.SchemaFactory.createForClass(Kakurega);
+exports.KakuregaRoomDataSchema = mongoose_1.SchemaFactory.createForClass(KakuregaRoomData);
 //# sourceMappingURL=kakurega.js.map

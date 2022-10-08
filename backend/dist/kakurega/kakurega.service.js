@@ -17,8 +17,9 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 let KakuregaService = class KakuregaService {
-    constructor(kakuregaModel) {
+    constructor(kakuregaModel, kakuregaRoomModel) {
         this.kakuregaModel = kakuregaModel;
+        this.kakuregaRoomModel = kakuregaRoomModel;
     }
     async fetchData() {
         const data = await this.kakuregaModel.findOne();
@@ -39,11 +40,49 @@ let KakuregaService = class KakuregaService {
         }
         return data.save();
     }
+    async fetchRoomData(dto) {
+        if (dto.year && dto.month && dto.day) {
+            const datas = await this.kakuregaRoomModel.find({
+                $or: [
+                    { year: { $gt: dto.year } },
+                    { $and: [
+                            { year: { $eq: dto.year } },
+                            { $or: [
+                                    { month: { $gt: dto.month } },
+                                    { $and: [
+                                            { month: { $eq: dto.month } },
+                                            { day: { $gte: dto.day } }
+                                        ] }
+                                ] }
+                        ] }
+                ],
+            });
+            return datas;
+        }
+        const datas = await this.kakuregaRoomModel.find();
+        return datas;
+    }
+    async saveRoomData(dto) {
+        const savedData = new this.kakuregaRoomModel(dto);
+        return savedData.save();
+    }
+    async changeRoomData(dto) {
+        let data = await this.kakuregaRoomModel.findOne({ year: dto.year, month: dto.month, day: dto.day });
+        if (!data) {
+            const savedData = await this.saveRoomData(dto);
+            return savedData;
+        }
+        const { rooms } = dto;
+        data.rooms = rooms;
+        return data.save();
+    }
 };
 KakuregaService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)("kakurega")),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __param(1, (0, mongoose_2.InjectModel)("kakurega-room")),
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model])
 ], KakuregaService);
 exports.KakuregaService = KakuregaService;
 //# sourceMappingURL=kakurega.service.js.map

@@ -145,13 +145,69 @@ export const BuildingDetail = ()=>{
                   <p>会社名：株式会社サラブレッド</p>
                   <p>会社URL：<a className="text-blue-300 hover:text-blue-500" href='https://tb-one.net/'>https://tb-one.net/</a></p>
                   <p>住所：千葉県成田市幸町982-1</p>
-                  <p>宿泊料金：6500~18500円/一泊</p>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>平日料金/一泊：</p>
+                    <div className="flex flex-col">
+                       <p>{prices1[0]}円(満1人),{prices1[1]}円(満1人)</p>
+                       <p>{prices1[2]}円(満2~3人),{prices1[3]}円(満3~4人)</p>
+                    </div>
+                  
+                  </div>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>休日料金/一泊：</p>
+                    <div className="flex flex-col">
+                       <p>{prices2[0]}円(満1人),{prices2[1]}円(満1人)</p>
+                       <p>{prices2[2]}円(満2~3人),{prices2[3]}円(満3~4人)</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>お盆・お正月料金/一泊：</p>
+                    <div className="flex flex-col">
+                       <p>{prices3[0]}円(満1人),{prices3[1]}円(満1人)</p>
+                       <p>{prices3[2]}円(満2~3人),{prices3[3]}円(満3~4人)</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>料金タイプ別お部屋残数：</p>
+                    <div className="flex flex-col">
+                       <p>{rooms[0]}部屋(満1人),{rooms[1]}部屋(満1人)</p>
+                       <p>{rooms[2]}部屋(満2~3人),{rooms[3]}部屋(満3~4人)</p>
+                    </div>
+                  </div>
+                  
 
                   <p className='mt-5'>Building name: Hotel Kakurega in Narita</p>
                   <p >Company: Thoroubghbred Inc</p>
                   <p>Company URL: <a className="text-blue-300 hover:text-blue-500" href='https://tb-one.net/'>https://tb-one.net/</a> </p>
                   <p>Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p> 
-                  <p>Price: 6500~18500yen/day</p>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>Weekday fee/1night：</p>
+                    <div className="flex flex-col">
+                       <p>{prices1[0]}yen(Max1),{prices1[1]}yen(Max1)</p>
+                       <p>{prices1[2]}yen(Max2~3),{prices1[3]}yen(Max3~4)</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>Holiday fee/1night：</p>
+                    <div className="flex flex-col">
+                       <p>{prices2[0]}yen(Max1),{prices2[1]}yen(Max1)</p>
+                       <p>{prices2[2]}yen(Max2~3),{prices2[3]}yen(Max3~4)</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>Season fee/1night：</p>
+                    <div className="flex flex-col">
+                       <p>{prices3[0]}yen(Max1),{prices3[1]}yen(Max1)</p>
+                       <p>{prices3[2]}yen(Max2~3),{prices3[3]}yen(Max3~4)</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-xs p-2">
+                    <p>Rest of ：</p>
+                    <div className="flex flex-col">
+                       <p>{rooms[0]}部屋(満1人),{rooms[1]}部屋(満1人)</p>
+                       <p>{rooms[2]}部屋(満2~3人),{rooms[3]}部屋(満3~4人)</p>
+                    </div>
+                  </div>
                   
                 </div>
                 
