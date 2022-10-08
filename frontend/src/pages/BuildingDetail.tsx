@@ -51,6 +51,8 @@ export const BuildingDetail = ()=>{
 
   const handleSelected = (arg: any)=>{
     console.log(arg.startStr, arg.endStr)
+    //const endDate = arg.endStr.split('-');
+    
     setDates([arg.startStr, arg.endStr])
     setDatesMessage(`${arg.startStr} ~ ${arg.endStr}` )
   };
@@ -219,11 +221,8 @@ export const BuildingDetail = ()=>{
                   <input name="from_name" value={name} onChange={(e:any)=>setName(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="text" placeholder='Your name(お名前)'/>
                   <input name="customer_email" value={mail} onChange={(e:any)=>setMail(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="email" placeholder='Your email(メールアドレス)'/>
                   <select name="booked_dates" className="border-gray-200 border-2 rounded-lg p-3" value={dates_message} onClick={handleCalendar}>
-                {dates ? (
-                  <option>{dates_message}</option>
-                ):(
-                  <option>Select dates</option>
-                )}
+                  <option hidden>{ dates? `${dates_message}` : "Select dates"}</option>
+                
               </select>
                 <div className="text-black mt-2">
                 {flagCalendar ? (
