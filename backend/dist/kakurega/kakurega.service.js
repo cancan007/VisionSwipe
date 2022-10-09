@@ -57,13 +57,34 @@ let KakuregaService = class KakuregaService {
                         ] }
                 ],
             });
+            if (dto.endyear && dto.endmonth && dto.endday) {
+                const query = datas.filter((e) => {
+                    if (Number(e.year) < Number(dto.endyear)) {
+                        return true;
+                    }
+                    else if ((Number(e.year) === Number(dto.endyear))
+                        &&
+                            (Number(e.month) < Number(dto.endmonth))) {
+                        return true;
+                    }
+                    else if ((Number(e.year) === Number(dto.endyear))
+                        && (Number(e.month) === Number(dto.endmonth)) && (Number(e.day) <= Number(dto.endday))) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                });
+                return query;
+            }
             return datas;
         }
         const datas = await this.kakuregaRoomModel.find();
         return datas;
     }
     async saveRoomData(dto) {
-        const savedData = new this.kakuregaRoomModel(dto);
+        const { year, month, day, rooms } = dto;
+        const savedData = new this.kakuregaRoomModel({ year: Number(year), month: Number(month), day: Number(day), rooms });
         return savedData.save();
     }
     async changeRoomData(dto) {

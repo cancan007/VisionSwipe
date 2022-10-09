@@ -29,6 +29,11 @@ let KakuregaController = class KakuregaController {
         const datas = await this.kakuregaService.fetchRoomData(params);
         res.json(datas);
     }
+    async fetchRoomStartEnd(year, month, day, endyear, endmonth, endday, res) {
+        const params = { year, month, day, endyear, endmonth, endday };
+        const datas = await this.kakuregaService.fetchRoomData(params);
+        res.json(datas);
+    }
     async updateData(body) {
         const data = await this.kakuregaService.fetchData();
         if (data) {
@@ -61,6 +66,19 @@ __decorate([
     __metadata("design:paramtypes", [Number, Number, Number, Object]),
     __metadata("design:returntype", Promise)
 ], KakuregaController.prototype, "fetchRoomData", null);
+__decorate([
+    (0, common_1.Get)('room-confirm'),
+    __param(0, (0, common_1.Query)('year')),
+    __param(1, (0, common_1.Query)('month')),
+    __param(2, (0, common_1.Query)('day')),
+    __param(3, (0, common_1.Query)('endyear')),
+    __param(4, (0, common_1.Query)('endmonth')),
+    __param(5, (0, common_1.Query)("endday")),
+    __param(6, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Number, Number, Number, Number, Object]),
+    __metadata("design:returntype", Promise)
+], KakuregaController.prototype, "fetchRoomStartEnd", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

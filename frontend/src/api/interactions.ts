@@ -49,7 +49,22 @@ export const fetchKakuregaRoomData = async(year:number, month:number, day:number
     let resText = res.text()
     let resJson = JSON.parse(await resText)
     return resJson
-    
+}
+
+export const fetchKakuregaRoomStartEnd =  async(year:number, month:number, day:number,endyear:number, endmonth:number, endday:number)=>{
+    const uri = process.env.REACT_APP_NODE_ENV === "development" ? `http://localhost:3001/api-kakurega/room-confirm?year=${year}&month=${month}&day=${day}&endyear=${endyear}&endmonth=${endmonth}&endday=${endday}` 
+                                                                : `/api-kakurega/room-confirm?year=${year}&month=${month}&day=${day}&endyear=${endyear}&endmonth=${endmonth}&endday=${endday}` 
+    let res = await fetch(uri,{
+        method:"GET",
+        mode:"cors",
+        headers:{
+            "Content-Type":"application/json"
+        }
+        })
+
+    let resText = res.text()
+    let resJson = JSON.parse(await resText)
+    return resJson
 }
 
 export const updateKakuregaRoomData = async(year:number, month:number, day:number, rooms:number[])=>{

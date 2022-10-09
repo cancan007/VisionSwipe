@@ -29,6 +29,22 @@ export class KakuregaController {
         res.json(datas);
     }
 
+    @Get('room-confirm')
+    async fetchRoomStartEnd(
+        @Query('year') year:number,
+        @Query('month') month:number,
+        @Query('day') day:number,
+        @Query('endyear') endyear:number,
+        @Query('endmonth') endmonth:number,
+        @Query("endday") endday:number,
+        @Res() res:Response
+    ){
+        const params = {year, month, day, endyear, endmonth, endday};
+        //console.log(params)
+        const datas = await this.kakuregaService.fetchRoomData(params);
+        res.json(datas);
+    }
+
     @Post()
     async updateData(@Body() body: ChangeData): Promise<KakuregaEnt>{
         const data = await this.kakuregaService.fetchData();

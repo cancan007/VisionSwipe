@@ -13,6 +13,9 @@ export declare class FetchRoomData {
     year?: number;
     month?: number;
     day?: number;
+    endyear?: number;
+    endmonth?: number;
+    endday?: number;
 }
 export declare class SaveRoomData {
     year: number;
