@@ -73,13 +73,24 @@ const confirmArray = (array:Array<any>) =>{
     }
   }
 
+  //calendarのselect用
   const handleSelected = (arg:any)=>{
     setDate(arg.startStr)
     const date = arg.startStr.split('-');
+    //console.log(Number(date[2]))
     setYear(Number(date[0]));
     setMonth(Number(date[1]));
     setDay(Number(date[2]));
-    
+  }
+
+  //calendarのdateOnclick用
+  const handlerSelectedData = (arg:any)=>{
+    setDate(arg.dateStr)
+    const date = arg.dateStr.split('-');
+    console.log(Number(date[2]))
+    setYear(Number(date[0]));
+    setMonth(Number(date[1]));
+    setDay(Number(date[2]));
   }
 
   const handleCalendar = ()=>{
@@ -281,7 +292,8 @@ const confirmArray = (array:Array<any>) =>{
                         <p className="text-xs text-red-400">*残り部屋数が表示されます</p>
                         <CalendarData
                         initialView="dayGridMonth"
-                        handleSelected={handleSelected}
+                        /*handleSelected={handleSelected}*/
+                        handleSelectedData={handlerSelectedData}
                         events={events}
                         />
                         </>

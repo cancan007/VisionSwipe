@@ -168,15 +168,15 @@ export const BuildingDetail = ()=>{
     let res = await fetchKakuregaRoomStartEnd(year, month, day, endyear, endmonth, endday);
     return confirmRoomStartEndChild(roomType,res)
   }
+  console.log(roomType, name, mail, dates,number)
 
   const handleConfirm = async(e:any)=>{
     e.preventDefault()
-    if(!roomType || !name || !mail || !dates || !number) {
+    // !roomTypeだと0の時引っかかる
+    if((roomType === undefined) || !name || !mail || !dates || !number) {
       setFlag3(true)
       return
-    }
-    const confirm = await confirmRoomStartEnd(roomType)
-    if(confirm){
+    }else if(await confirmRoomStartEnd(roomType)){
       setFlagConfirm(true)
       return
     }
@@ -397,7 +397,7 @@ export const BuildingDetail = ()=>{
                 <Alert className="fixed bottom-2" onClose={()=>setFlag3(false)} variant="danger" dismissible children={missed_message}/>
             ): <></>}
             {flag4 ? (
-                <Alert className="fixed bottom-2" onClose={()=>setFlag3(false)} variant="danger" dismissible children={not_available_message}/>
+                <Alert className="fixed bottom-2" onClose={()=>setFlag4(false)} variant="danger" dismissible children={not_available_message}/>
             ): <></>}
                 </form>
                 {

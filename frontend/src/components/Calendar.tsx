@@ -28,7 +28,7 @@ const CalendarData = ({initialView,handleSelected, handleSelectedData,events}:{i
       ]}*/
       selectable={true}
       //editable={true}
-      dateClick={(arg:any)=>handleSelectedData(arg)}
+      dateClick={(arg:any)=>{handleSelectedData(arg)}}
       /*
       select={(dateInfo) => {
         console.log(dateInfo.startStr) //start of the range the calendar date
