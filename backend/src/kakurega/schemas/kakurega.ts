@@ -6,6 +6,8 @@ import { Document } from 'mongoose';
 
 
 export type KakuregaDocument = Kakurega & Document;
+export type KakuregaRoomDataDocument = KakuregaRoomData & Document; 
+
 
 @Schema({collection: "kakurega"})
 export class Kakurega{
@@ -18,9 +20,32 @@ export class Kakurega{
     })
     prices:[[number]];
     @Prop({
-        required: true
+        required:true
     })
-    rooms:[number];
+    rooms:[number]
+    @Prop()
+    roomDatas:(typeof KakuregaRoomDataSchema)[]
+}
+
+@Schema({collection:"kakurega-room"})
+export class KakuregaRoomData{
+    @Prop({
+        required:true
+    })
+    year:number;
+    @Prop({
+        required:true
+    })
+    month:number;
+    @Prop({
+        required:true
+    })
+    day:number;
+    @Prop({
+        required:true
+    })
+    rooms:number[]
 }
 
 export const KakuregaSchema = SchemaFactory.createForClass(Kakurega);
+export const KakuregaRoomDataSchema = SchemaFactory.createForClass(KakuregaRoomData);

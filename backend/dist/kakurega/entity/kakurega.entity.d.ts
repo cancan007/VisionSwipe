@@ -4,3 +4,9 @@ export interface KakuregaEnt {
     prices?: [[number]];
     rooms?: [number];
 }
+export interface KakuregaRoomDataEnt {
+    _id: string;
+    year: number;
+    month: number;
+    day: number;
+}

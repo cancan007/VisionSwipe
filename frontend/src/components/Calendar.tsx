@@ -4,12 +4,18 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
-const CalendarData = ({handleSelected}:any) => {
+const CalendarData = ({initialView,handleSelected, handleSelectedData,events}:{initialView:string,handleSelected?:any, handleSelectedData?:any, events?:Array<any>}) => {
   return (
     <FullCalendar
       plugins={[dayGridPlugin,timeGridPlugin, interactionPlugin]}
-      //initialView={props.initialView}
+      initialView={initialView}
       locale="ja"
+      events={events}
+      /*
+      datesSet={(arg) => {
+        console.log(arg.start) //starting visible date
+        console.log(arg.end) //ending visible date
+      }}*/
       // 登録済みのイベントの配列
       /*
       events={[
@@ -22,7 +28,7 @@ const CalendarData = ({handleSelected}:any) => {
       ]}*/
       selectable={true}
       //editable={true}
-      //dateClick={(arg:any)=>console.log(arg)}
+      dateClick={(arg:any)=>handleSelectedData(arg)}
       /*
       select={(dateInfo) => {
         console.log(dateInfo.startStr) //start of the range the calendar date
