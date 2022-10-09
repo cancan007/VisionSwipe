@@ -4,6 +4,12 @@ import Alert from '../components/Alert';
 import CalendarData from '../components/Calendar';
 
 export const KakuregaAdmin = () => {
+    const USER = process.env.REACT_APP_KAKUREGA_USER;
+    const PASSWORD = process.env.REACT_APP_KAKUREGA_PASSWORD;
+    const [user, setUser] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
+    
     const [flag, setFlag] =useState<boolean>(false);
     const [flag2, setFlag2] = useState<boolean>(false);
     const [flag3, setFlag3] = useState<boolean>(false);
@@ -158,7 +164,7 @@ const confirmArray = (array:Array<any>) =>{
     .then(res=>{
         let es = organizedEvents(res);
         setEvents(es);
-        console.log(es);
+        //console.log(es);
     })
   }
 
@@ -181,7 +187,16 @@ const confirmArray = (array:Array<any>) =>{
     }, 5000)
   },[flag, flag2, flag3, flag4, flag5, flag6])
 
-  return (
+  if(user !== USER || password !== PASSWORD ){
+    return (
+        <div className="h-screen text-black flex flex-col items-center justify-center">
+           <p>成田ホテル隠れ家ログイン画面</p>
+           <input className="px-2 py-1 border-2" type="text" placeholder='ユーザー名' onChange={(e:any)=>setUser(e.target.value)}/>
+           <input className="px-2 py-1 border-2" type="text" placeholder='パスワード' onChange={(e:any)=>setPassword(e.target.value)}/>
+        </div>
+    )
+   }else
+    return (
         <body className="flex flex-col items-center">
             <header className="w-full flex flex-row justify-end">
                 <a className="mt-2 mr-4" href="/kakurega">
