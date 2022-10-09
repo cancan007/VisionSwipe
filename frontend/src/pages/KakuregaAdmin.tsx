@@ -207,7 +207,7 @@ const confirmArray = (array:Array<any>) =>{
               <p className="text-2xl md:text-4xl mt-6 mb-2">成田ホテル隠れ家 管理画面</p>
               <form className="w-4/5 md:w-3/5 flex flex-col items-center">
                 <p className="text-xl md:text-2xl mb-1">ホテル情報・基本設定</p>
-                <select className="mb-2" value={season} onChange={(e:any)=>setSeason(e.target.value)}>
+                <select className="mb-2 border-2 rounded-lg px-2 py-1" value={season} onChange={(e:any)=>setSeason(e.target.value)}>
                     <option hidden>シーズンを選択</option>
                     <option value="0">OFF(平日)</option>
                     <option value="1">ON(休前日)</option>
