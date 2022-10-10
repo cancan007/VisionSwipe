@@ -250,23 +250,23 @@ export const BuildingDetail = ()=>{
                   <div className="flex flex-row text-xs p-2">
                     <p>平日料金/一泊：</p>
                     <div className="flex flex-col">
-                       <p>T1:{prices1[0]}円(満4人), T2:{prices1[1]}円(満4人)</p>
-                       <p>T3:{prices1[2]}円(満4~6人), T4:{prices1[3]}円(満6~8人)</p>
+                       <p>T1:{prices1[0]}円(2ベット,満4人), T2:{prices1[1]}円(2ベット,満4人)</p>
+                       <p>T3:{prices1[2]}円(2~3ベット,満4~6人), T4:{prices1[3]}円(3~4ベット,満6~8人)</p>
                     </div>
                   
                   </div>
                   <div className="flex flex-row text-xs p-2">
                     <p>休日料金/一泊：</p>
                     <div className="flex flex-col">
-                       <p>T1:{prices2[0]}円(満4人), T2:{prices2[1]}円(満4人)</p>
-                       <p>T3:{prices2[2]}円(満4~6人), T4:{prices2[3]}円(満6~8人)</p>
+                       <p>T1:{prices2[0]}円(2ベット,満4人), T2:{prices2[1]}円(2ベット,満4人)</p>
+                       <p>T3:{prices2[2]}円(2~3ベット,満4~6人), T4:{prices2[3]}円(3~4ベット,満6~8人)</p>
                     </div>
                   </div>
                   <div className="flex flex-row text-xs p-2">
                     <p>お盆・お正月料金/一泊：</p>
                     <div className="flex flex-col">
-                       <p>T1:{prices3[0]}円(満4人), T2:{prices3[1]}円(満4人)</p>
-                       <p>T3:{prices3[2]}円(満4~6人), T4:{prices3[3]}円(満6~8人)</p>
+                       <p>T1:{prices3[0]}円(2ベット,満4人), T2:{prices3[1]}円(2ベット,満4人)</p>
+                       <p>T3:{prices3[2]}円(2~3ベット,満4~6人), T4:{prices3[3]}円(3~4ベット,満6~8人)</p>
                     </div>
                   </div>
                   {/*<div className="flex flex-row text-xs p-2">
@@ -285,22 +285,22 @@ export const BuildingDetail = ()=>{
                   <div className="flex flex-row text-xs p-2">
                     <p>Weekday fee/1night：</p>
                     <div className="flex flex-col">
-                       <p>T1:{prices1[0]}yen(Max4), T2:{prices1[1]}yen(Max4)</p>
-                       <p>T3:{prices1[2]}yen(Max4~6), T4:{prices1[3]}yen(Max6~8)</p>
+                       <p>T1:{prices1[0]}yen(2Bed,Max4), T2:{prices1[1]}yen(2Bed,Max4)</p>
+                       <p>T3:{prices1[2]}yen(2~3Bed,Max4~6), T4:{prices1[3]}yen(3~4Bed,Max6~8)</p>
                     </div>
                   </div>
                   <div className="flex flex-row text-xs p-2">
                     <p>Holiday fee/1night：</p>
                     <div className="flex flex-col">
-                       <p>T1:{prices2[0]}yen(Max4), T2:{prices2[1]}yen(Max4)</p>
-                       <p>T4:{prices2[2]}yen(Max4~6), T3:{prices2[3]}yen(Max6~8)</p>
+                       <p>T1:{prices2[0]}yen(2Bed,Max4), T2:{prices2[1]}yen(2Bed,Max4)</p>
+                       <p>T4:{prices2[2]}yen(2~3Bed,Max4~6), T3:{prices2[3]}yen(3~4Bed,Max6~8)</p>
                     </div>
                   </div>
                   <div className="flex flex-row text-xs p-2">
                     <p>Season fee/1night：</p>
                     <div className="flex flex-col">
-                       <p>T1:{prices3[0]}yen(Max4), T2:{prices3[1]}yen(Max4)</p>
-                       <p>T3:{prices3[2]}yen(Max4~6), T4:{prices3[3]}yen(Max6~8)</p>
+                       <p>T1:{prices3[0]}yen(2Bed,Max4), T2:{prices3[1]}yen(2Bed,Max4)</p>
+                       <p>T3:{prices3[2]}yen(2~3Bed,Max4~6), T4:{prices3[3]}yen(3~4Bed,Max6~8)</p>
                     </div>
                   </div>
                   {/*<div className="flex flex-row text-xs p-2">
@@ -363,7 +363,7 @@ export const BuildingDetail = ()=>{
               
                   
                   <input name="customer_number" value={number} onChange={(e:any)=>setNumber(e.target.value)} className="border-2 rounded-lg p-3 my-2" type="number" placeholder='Number of people(人数)'/>
-                <select name="room_fee" value={roomType !== undefined ? prices1[roomType]: ""} onChange={(e:any)=>{setRoomType(Number(prices1.indexOf(e.target.value)));/*console.log(prices1.indexOf(e.target.value))*/}} className="my-2 form-select form-select-lg mb-3
+                <select name="room_fee" value={roomType !== undefined ? `${roomType+1}`: ""} onChange={(e:any)=>{setRoomType(Number(e.target.value/*prices1.indexOf(e.target.value)*/)-1);/*console.log(prices1.indexOf(e.target.value))*/}} className="my-2 form-select form-select-lg mb-3
                     appearance-none
                     block
                     w-auto
@@ -379,11 +379,11 @@ export const BuildingDetail = ()=>{
                     ease-in-out
                     m-0
                   focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label=".form-select-lg example">
-                    <option value="" hidden>Select price(料金タイプ)</option>
-                    <option value={prices1[0]} id="0">T1:{prices1[0]}yen</option>
-                    <option value={prices1[1]} id="1">T2:{prices1[1]}yen</option>
-                    <option value={prices1[2]} id="2">T3:{prices1[2]}yen</option>
-                    <option value={prices1[3]} id="3">T4:{prices1[3]}yen</option>
+                    <option value="" hidden>Select room(部屋タイプ)</option>
+                    <option value="1" id="0">T1</option>
+                    <option value="2" id="1">T2</option>
+                    <option value="3" id="2">T3</option>
+                    <option value="4" id="3">T4</option>
                   </select>
                   
                   <button /*type="submit"*/ onClick={(e:any)=>handleConfirm(e)} className="px-3 py-1 shadow-md hover:shadow-none hover:text-red-300 rounded-lg border-2 bg-blue-500 text-white hover:bg-blue-300">Book(予約)</button>

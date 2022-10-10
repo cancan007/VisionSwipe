@@ -103,7 +103,7 @@ const confirmArray = (array:Array<any>) =>{
 
   const updateRoomData = async(e:any)=>{
     e.preventDefault();
-    if(!year || !month || !day || confirmArray(rooms) < 4){
+    if(!year || !month || !day || confirmArray(rooms || confirmArray(usedRooms)) < 4){
         setFlag6(true);
         return
     } try{
