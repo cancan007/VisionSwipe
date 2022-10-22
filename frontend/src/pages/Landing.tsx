@@ -14,14 +14,14 @@ export const Landing = ()=>{
         <body className="w-full items-center">
         <header className="header-home h-[700px] md:h-[800px] flex flex-col md:flex-row justify-center md:justify-end">
           <img src={visionSwipe} className=" object-contain w-80 h-14 fadeIn absolute top-10 left-10"/>
-          <div className="flex flex-col items-center self-center md:mr-32 fadeIn">
+          <div className="flex flex-col items-center self-center md:mr-32 fadeIn text-white">
           <p className="text-4xl md:text-7xl">Realize</p>
           <p className="text-4xl md:text-7xl">the new world</p>
           <p className="md:text-xl mt-5">Trading building NFT</p>
           </div>
           
         </header>
-        <section className="flex flex-col items-center">
+        <section className="flex flex-col items-center text-white">
             <a href='/buildings' className='cursor-pointer'>
           <div className="building-section mt-20 flex flex-row">
             <p className='text-5xl md:text-7xl m-10 z-1'>Buildings</p>

@@ -10,6 +10,8 @@ import { Contact } from './pages/Contact';
 import {Elements} from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import { KakuregaAdmin } from './pages/KakuregaAdmin';
+import { ChakraProvider } from '@chakra-ui/react'
+import { Admin } from './pages/Admin';
 
 function App() {
   const PUBLIC_KEY : any = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
@@ -17,6 +19,7 @@ function App() {
 
 
   return (
+    <ChakraProvider>
     <div>
       <head>
         <title>Vision Swipe</title>
@@ -29,10 +32,12 @@ function App() {
         <Route path="/kakurega" element={<BuildingDetail/>}/>
         <Route path="/kakurega/admin" element={<KakuregaAdmin/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/admin" element={<Admin/>}/>
       </Routes>
       </BrowserRouter>
       </Elements>
     </div>
+    </ChakraProvider>
   );
 }
 
