@@ -5,22 +5,68 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
+const {ethers} = hre;
+const fs = require('fs');
+const fse = require('fs-extra');
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const VSMarket = await ethers.getContractFactory('VSMarket');
+  const market = await VSMarket.deploy();
+  await market.deployed();
+  
+  const NFT = await ethers.getContractFactory('NFT');
+  const nft = await NFT.deploy(market.address);
+  await nft.deployed();
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  const {chainId} = await ethers.provider.getNetwork();
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  let toJson = {
+    [chainId.toString()]: {
+        "VSMarket": [market.address],
+        "NFT": [nft.address]
+    }
+}
 
-  await lock.deployed();
+if (fs.existsSync("./src/map.json")) {
+    let mapJson = fs.readFileSync("./src/map.json");
+    mapJson = JSON.parse(mapJson)
+    if (mapJson[chainId.toString()]) {
+        mapJson[chainId.toString()]["VSMarket"].push(market.address)
+        mapJson[chainId.toString()]["NFT"].push(nft.address)
+        mapJson = JSON.stringify(mapJson)
+    } else if (!mapJson[chainId.toString()]) {
+        mapJson[chainId.toString()]["VSMarket"] = [market.address]
+        mapJson[chainId.toString()]["NFT"] = [nft.address]
+        mapJson = JSON.stringify(mapJson)
+    }
 
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+    fs.writeFileSync("./src/map.json", mapJson, (err, c) => {
+        if (err) throw err;
+        else if (!err) {
+            console.log(`Update ${chainId} map.json`)
+        }
+    })
+} else {
+    toJson = JSON.stringify(toJson)
+    fs.writeFileSync("./src/map.json", toJson, (err, c) => {
+        if (err) throw err;
+        else if (!err) {
+            console.log(`Created ${chainId} map.json`)
+        }
+    })
+}
+
+if (fs.existsSync("./src/artifacts")) {
+    await fse.remove("./src/artifacts")
+        .then(() => console.log("deleted ./src/artifacts"))
+        .catch((err) => console.error(err))
+    fse.copySync("./artifacts", "./src/artifacts")
+    console.log("Updated ./src/artifacts")
+    return
+}
+
+fse.copySync("./artifacts", "./src/artifacts")
+console.log("Created ./src/artifacts")
 }
 
 // We recommend this pattern to be able to use async/await everywhere

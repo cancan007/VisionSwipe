@@ -7,13 +7,14 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"; // to get current rate of currencies
 
-contract BTTMarket is Ownable,ReentrancyGuard{
+contract VSMarket is Ownable ,ReentrancyGuard{
     using Counters for Counters.Counter;
     Counters.Counter private _itemIds;
     Counters.Counter private _itemCancelled;
     Counters.Counter private _itemSold;
+    Counters.Counter private _authorIds;
 
-    address payable owner;
+    address payable vsOwner;
     //uint256 listingPrice = 0.025 ether;
 
     address avax_usd_priceFeed = 0x0A77230d17318075983913bC2145DB16C7366156;
@@ -21,11 +22,26 @@ contract BTTMarket is Ownable,ReentrancyGuard{
     
 
    mapping(uint256=> address) basicPriceFeeds; // 0=>usd, 1=>yen
+   address[] private authors;
 
     constructor(){
-        owner = payable(msg.sender);
+        vsOwner = payable(msg.sender);
+        authors.push(msg.sender);
+        _authorIds.increment();
         basicPriceFeeds[0] = avax_usd_priceFeed;
         basicPriceFeeds[1] = jpy_usd_priceFeed;
+    }
+
+    receive() external payable {
+    }
+    fallback() external payable {
+    }
+
+    // modifierキーワードで宣言する
+    modifier isAuthor() {
+      if (confirmAuthor(msg.sender)){
+        _;
+      }
     }
 
     struct MarketItem{
@@ -56,13 +72,26 @@ contract BTTMarket is Ownable,ReentrancyGuard{
         bool sold
     );
 
+    event MarketItemCancelled(
+        uint256 indexed itemId,
+        address indexed nftContract,
+        uint256 indexed tokenId,
+        address seller,
+        address owner,
+        uint256 price,
+        uint256 priceUnit,
+        uint256 feePercent,
+        bool cancelled,
+        bool sold
+    );
+
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
         uint256 price,
         uint256 priceUnit,
         uint256 feePercent
-    )public onlyOwner nonReentrant{
+    )public isAuthor nonReentrant{
         require(price > 0, "Price must be at least 1 wei");
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
@@ -100,7 +129,7 @@ contract BTTMarket is Ownable,ReentrancyGuard{
         uint256 itemId)
         public 
         payable
-        nonRentrant{
+        nonReentrant{
             uint256 tokenId = idToMarketItem[itemId].tokenId;
             uint256 price = idToMarketItem[itemId].price;
             uint256 priceUnit = idToMarketItem[itemId].priceUnit;
@@ -108,32 +137,66 @@ contract BTTMarket is Ownable,ReentrancyGuard{
             require(idToMarketItem[itemId].cancelled == false, "This item is already cancelled");
             require(msg.value >= convertToAvax(priceUnit, price), "You need more Avax");
             uint256 feePercent = idToMarketItem[itemId].feePercent;
-            uint256 fee = (msg.value*feePercent)/100;
-            owner.transfer(fee);
-            idToMarketItem[itemId].seller.transfer(msg.value - fee);
-            IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+            uint256 fee = (msg.value*feePercent)/10**18;
+
             idToMarketItem[itemId].owner = payable(msg.sender);
             idToMarketItem[itemId].sold = true;
             _itemSold.increment();
+
+            //(bool ownerSent, ) = owner.call{value:fee}("");
+            //require(ownerSent, "Failed to send Avax to Owner");
+            vsOwner.transfer(fee);
+            idToMarketItem[itemId].seller.transfer(msg.value - fee);
+            IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         }
 
     function cancelMarketItem(
-        address nftContract,
+        //address nftContract,
         uint256 itemId) 
         public 
         onlyOwner 
-        nonRentrant{
+        nonReentrant{
           idToMarketItem[itemId].cancelled = true;
           _itemCancelled.increment();
+          MarketItem storage item =  idToMarketItem[itemId];
+          emit MarketItemCancelled(itemId, item.nftContract, item.tokenId, item.seller, item.owner, item.price, item.priceUnit, item.feePercent, item.cancelled, item.sold);
     }
-        /// @notice Explain to an end user what this does
-        /// @dev Explain to a developer any extra details
-        /// @return Documents the return variables of a contract’s function state variable
-        /// @inheritdoc	Copies all missing tags from the base function (must be followed by the contract name)
+
+    function addAuthor(address _newAuthor) public onlyOwner {
+        authors.push(_newAuthor);
+        _authorIds.increment();
+    }
+
+    function removeAuthor(address _author) public onlyOwner {
+        uint256 authorNum = _authorIds.current();
+        uint256 index;
+        for (uint256 i = 0; i < authorNum; i++) {
+            if (authors[i] == _author) {
+                index = i;
+                break;
+            }
+        }
+
+        for (uint256 e = index; e < authorNum - 1; e++) {
+            authors[e] = authors[e + 1];
+        }
+        authors.pop(); // to remove last element
+        _authorIds.decrement();
+    }
+
+    function confirmAuthor(address _author) private view returns(bool) {
+        uint256 authorNum = _authorIds.current();
+        for(uint256 i=0; i < authorNum; i++) {
+            if(authors[i] == _author){
+                return true;
+            }
+        }
+        return false;
+    }
 
     function fetchMarketItems() public view returns(MarketItem[] memory){
         uint256 itemCount = _itemIds.current();
-        uint256 unsoldItemCount = _itemIds.current() - _itemSold.curret() - _itemCancelled.current();
+        uint256 unsoldItemCount = _itemIds.current() - _itemSold.current() - _itemCancelled.current();
         uint256 currentIndex = 0;
 
         MarketItem[] memory items = new MarketItem[](unsoldItemCount);
@@ -172,6 +235,9 @@ contract BTTMarket is Ownable,ReentrancyGuard{
 
     }
 
+    function fetchAllAuthors() public onlyOwner view returns(address[] memory){
+        return authors;
+    }
 
     function getAvaxUsdValue()
         public
@@ -228,7 +294,7 @@ contract BTTMarket is Ownable,ReentrancyGuard{
         if(_priceUnit == 0){
             return convertUsdToAvax(_price);
         }else if(_priceUnit == 1){
-            return convertYenToAvax(_jpyPrice);
+            return convertYenToAvax(_price);
         }
     }
 }

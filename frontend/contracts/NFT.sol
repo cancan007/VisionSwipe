@@ -10,7 +10,7 @@ contract NFT is ERC721URIStorage{
     Counters.Counter private _tokenIds;
     address contractAddress;
 
-    constructor(address marketplaceAddress) ERC721('Building Tokens', "BTT"){
+    constructor(address marketplaceAddress) ERC721('Vison Swipe Token', "VST"){
         contractAddress = marketplaceAddress;
     }
 
