@@ -8,7 +8,7 @@ interface CreateMarketItemProps {
     provider: any;
     market: any;
     nft: any;
-    tokenId: BigNumber;
+    tokenId: BigNumber | any;
     price: string;
     priceUnit:string;
     feePercent:string;
@@ -29,7 +29,7 @@ export const useCreateMarketItem = (
     unknown,
     Error,
     CreateMarketItemProps>) => {
-        return useMutation(
+        return useMutation<unknown, Error, CreateMarketItemProps>(
             (obj) => createMarketItem(obj),
             mutationOptions
         )

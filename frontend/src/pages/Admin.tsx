@@ -1,5 +1,5 @@
 
-import { Box, Button, Container, Heading, Image, Input, Radio, RadioGroup, Stack, Text, Textarea } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Container, Heading, Image, Input, Radio, RadioGroup, Stack, Text, Textarea } from '@chakra-ui/react'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
 import { IconContext } from 'react-icons';
@@ -12,6 +12,7 @@ import { create as ipfsHttpClient, urlSource} from "ipfs-http-client"
 import { createDispatchHook } from 'react-redux';
 import { useCreateNFT } from '../hooks/api/admin/useCreateNFT';
 import { useCreateMarketItem } from '../hooks/api/admin/useCreateMarketItem';
+import { allowedNodeEnvironmentFlags } from 'process';
 
 interface Image {
     id: number;
@@ -24,13 +25,17 @@ interface nftType {
   saleType: string;
   description: string;
   priceUnit: string;
-  price: number;
+  price: string;
+  feePercent: string;
   address: string;
   images: string[];
 }
 
 export const Admin = () => {
   const auth = useAppSelector(state => state.provider.authentication);
+  const provider = useAppSelector(state => state.provider.connection);
+  const nft =useAppSelector(state => state.nft.contract);
+  const market = useAppSelector(state => state.market.contract);
   const networkHandler = async () => {
     await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -81,33 +86,64 @@ export const Admin = () => {
    , [])
 
    
-   const addImagesToIpfs = async() => {
-    if(acceptedFiles.length === 0){
-        alert("Please add item images");
-        return
+    const addImagesToIpfs = async() => {
+        if(acceptedFiles.length === 0){
+            alert("Please add item images");
+            return
+        }
+        const ipfsImages: Array<string> = []
+        for(let i=0; i < acceptedFiles.length; i++) {
+            let res = await client.add({content: acceptedFiles[i]});
+            let url = `https://ipfs.io/ipfs/${res.cid}`;
+            ipfsImages.push(url);
+            //console.log(url);
+        }
+        setInfo((prevState:any) => ({...prevState, images: ipfsImages}));
+        alert(`Succeeded to add ${acceptedFiles.length + 1} images to IPFS`);
     }
-    const ipfsImages: Array<string> = []
-    for(let i=0; i < acceptedFiles.length; i++) {
-        let res = await client.add({content: acceptedFiles[i]});
-        let url = `https://ipfs.io/ipfs/${res.cid}`;
-        ipfsImages.push(url);
-        console.log(url);
-        //setInfo((prevState:any) => ({...prevState, images: [...prevState.images, url]}))
-    }
-    setInfo((prevState:any) => ({...prevState, images: ipfsImages}));
-    alert(`Succeeded to add ${acceptedFiles.length + 1} images to IPFS`);
-}
 
    const onDropRejected = useCallback(()=>{
      console.log("Files are rejected")
    },[])
-
+   
    const onDropAccepted = useCallback(()=>{
     console.log("File accepted");
    },[])
 
-   const {data:nftTx, mutate:mutateCreateNft} = useCreateNFT();
-   const {data:marketTx, mutate:mutateCreateMarketItem} = useCreateMarketItem();
+   const {data:nftTx, mutate:mutateCreateNft} = useCreateNFT({
+    onSuccess:(result) => {
+      if(!info || !info.price || !info.priceUnit || !info.feePercent || !provider || !market || !nft) return;
+      mutateCreateMarketItem({provider, market, nft, tokenId:result, price:info?.price, priceUnit:info?.priceUnit, feePercent:info?.feePercent})
+    }
+   });
+   const {data:marketTx, mutate:mutateCreateMarketItem} = useCreateMarketItem({
+    onSuccess:(result) => {
+      alert('Succeeded to create market item');
+      window.location.href = '/buildings'
+    }
+   });
+   const createItemHandler = async() => {
+    if(!info || !info.name || !info.buildingType || !info.saleType || !info.description || !info.priceUnit || !info.price || !info.address || !info.images?.length || !info.feePercent){
+      alert('Filll all forms');
+      return
+    }
+    const building:nftType = {
+      name: info.name,
+      buildingType: info.buildingType,
+      saleType: info.saleType,
+      description: info.description,
+      priceUnit: info.priceUnit,
+      price: info.price,
+      feePercent: info.feePercent,
+      address: info.address,
+      images: info.images
+    }
+    const buildingJson = JSON.stringify(building);
+    const res = await client.add(buildingJson);
+    const url = `https://ipfs.io/ipfs/${res.cid}`;
+    //console.log(url)
+    mutateCreateNft({provider, nft, tokenURI:url});
+   }
 
     const {acceptedFiles,getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, onDropRejected, onDropAccepted,multiple: true, accept:{"image/*":[".png", ".jpeg", ".jpg", ".svg"]}})
 
@@ -151,13 +187,14 @@ export const Admin = () => {
     <Box display={"flex"} flexDirection={"column"}>
     <RadioGroup onChange={(value) => setInfo({...info, priceUnit: value})} value={info?.priceUnit}>
     <Stack direction={"row"} spacing={5}>
-        <Radio value={1}>Yen</Radio>
-        <Radio value={0}>USD</Radio>
+        <Radio value='1'>Yen</Radio>
+        <Radio value='0'>USD</Radio>
     </Stack>
     </RadioGroup>
-    <Input onChange={(e:any) => setInfo({...info, price: e.target.value})} type="number" placeholder='Price'/>
+    <Input value={info?.price} onChange={(e:any) => setInfo({...info, price: e.target.value})} type="number" placeholder='Price'/>
     </Box>
-    <Input type="text" placeholder="Address"/>
+    <Input value={info?.feePercent} onChange={(e:any) => setInfo({...info, feePercent: e.target.value})} type="number" placeholder='Fee Percent'/>
+    <Input value={info?.address} onChange={(e:any) => setInfo({...info, address: e.target.value})} type="text" placeholder="Address"/>
     <div {...getRootProps()} className="h-[300px] rounded-lg w-full border-2 flex flex-col items-center justify-center relative">
       <IconContext.Provider value={{className: "absolute -z-1 w-full", size:"2em"}}>
       <FcAddImage/>
@@ -171,7 +208,7 @@ export const Admin = () => {
         </Box>
     </div>
     <Button onClick={() => addImagesToIpfs()} colorScheme={'pink'} variant={'outline'}>Upload Images</Button>
-    <Button colorScheme={'blue'} variant={'outline'}>Create NFT</Button>
+    <Button onClick={() => createItemHandler()} colorScheme={'blue'} variant={'outline'}>Create NFT</Button>
     </Box>
     </Container>
   )

@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { useMutation, UseMutationOptions } from "react-query";
 import { gasLimit } from "../../../utils/admin/constants";
 
@@ -12,7 +13,7 @@ export const createNft = async({provider, nft, tokenURI}: CreateNftProps) => {
     const signer = await provider.getSigner();
     let tx = await nft.connect(signer).createToken(tokenURI, {gasLimit});
     let event = await tx.wait();
-    return event;
+    return event.events[0].args.tokenId;
 }
 
 export const useCreateNFT = (

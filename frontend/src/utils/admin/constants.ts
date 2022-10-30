@@ -1,1 +1,1 @@
-export const gasLimit = 100000;
+export const gasLimit = 1000000;
