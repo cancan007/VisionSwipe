@@ -3,9 +3,44 @@ import visionSwipe from "../assets/vision-swipe.png"
 import house from "../assets/house.png"
 import kakurega from "../assets/kakurega.png"
 import { FadeIn } from "../animations/FadeIn"
+import { useAppDispatch, useAppSelector } from "../hooks/useGeneral"
+import { FetchItemResult, Item, useFetchItems } from "../hooks/api/buildings/useFetchItems"
+import { useEffect, useMemo } from "react"
+import { loadAccount, loadNetwork, loadProvider } from "../hooks/provider/interactions"
+import { loadNFT } from "../hooks/nft/interactions"
+import { loadMarket } from "../hooks/market/interactions"
 
 
 export const Buildings =() =>{
+  const dispatch = useAppDispatch()
+  const provider = useAppSelector(state => state.provider.connection);
+  const market = useAppSelector(state => state.market.contract);
+  const nft = useAppSelector(state => state.nft.contract);
+
+  const loadBlockchainData = async () => {
+    const provider = loadProvider(dispatch);
+    const chainId = await loadNetwork(dispatch, provider);
+    const nft = await loadNFT(dispatch, provider, chainId)
+    const market = await loadMarket(dispatch, provider, chainId);
+    /*window.ethereum.on('chainChanged', () => {
+        window.location.reload();
+    })
+
+    window.ethereum.on('accountsChanged',() => {
+        loadAccount(dispatch, provider);
+    })*/
+    //subscribeToEvents(dispatch, casino);
+  }
+
+  const {data: gettingItems, refetch: refetchItems} = useFetchItems({provider, market, nft});
+
+  console.log(gettingItems)
+  useMemo(() => {
+    refetchItems();
+  },[nft, market])
+  useEffect(() => {
+    loadBlockchainData()
+  },[])
     return(
         <body>
             <header className="flex flex-col">
@@ -88,6 +123,20 @@ export const Buildings =() =>{
                 </div>
               </div>
               </a>
+              {gettingItems ? gettingItems.map((item:FetchItemResult, i:number) => {
+                return(
+                  <div key={i} className="w-full px-2 md:w-3/5 h-auto">
+                 <div className="flex flex-row h-[144px] justify-start bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50 overflow-y-auto">
+                <img alt="" src={item?.images[0]} className="w-1/3 h-auto object-cover rounded-l-lg"/>
+                <div className="flex flex-col items-start justify-center text-black ml-5">
+                    <p className="text-sm">Building name: {item.name}</p>
+                    <p className="text-sm">Address: {item.address}</p>
+                    <p className="text-sm">Descripton: {item.description}</p>
+                </div>
+              </div>
+              </div>
+                )
+              }) : <></>}
               
             </section>
             <footer className="flex flex-row justify-center mt-10">

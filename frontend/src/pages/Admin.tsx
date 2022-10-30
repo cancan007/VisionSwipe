@@ -19,7 +19,7 @@ interface Image {
     src: string;
 }
 
-interface nftType {
+export interface nftType {
   name: string;
   buildingType: string;
   saleType: string;
