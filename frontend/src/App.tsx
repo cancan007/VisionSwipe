@@ -12,6 +12,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import { KakuregaAdmin } from './pages/KakuregaAdmin';
 import { ChakraProvider } from '@chakra-ui/react'
 import { Admin } from './pages/Admin';
+import { NFTBuildings } from './pages/NFTBuildings';
 
 function App() {
   const PUBLIC_KEY : any = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>}/>
         <Route path="/buildings" element={<Buildings/>}/>
+        <Route path="/nft-buildings" element={<NFTBuildings/>}/>
         <Route path="/kakurega" element={<BuildingDetail/>}/>
         <Route path="/kakurega/admin" element={<KakuregaAdmin/>}/>
         <Route path="/contact" element={<Contact/>}/>

@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import { nftType } from "../../../pages/Admin";
 
 interface FetchItemsProps {
-    provider: any;
     market: any;
     nft: any;
 }
@@ -24,8 +23,8 @@ export interface Item {
 
 export type FetchItemResult = Item & Omit<nftType, 'price' | 'priceUnit' | 'feePercent'>
 
-export const fetchItems = async({ provider,market, nft}: FetchItemsProps): Promise<FetchItemResult[]>=> {
-    const items = await market.connect(provider).fetchMarketItems();
+export const fetchItems = async({ market, nft}: FetchItemsProps): Promise<FetchItemResult[]>=> {
+    const items = await market.fetchMarketItems();
     
     const result:FetchItemResult[] = await Promise.all(items.map(async(item:Item,i:number) => {
         const {itemId, nftContract, tokenId, seller, owner, cancelled, sold} = item;

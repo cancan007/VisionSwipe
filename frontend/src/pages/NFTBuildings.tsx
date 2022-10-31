@@ -1,28 +1,57 @@
 import "../buildings.css"
 import visionSwipe from "../assets/vision-swipe.png"
+import house from "../assets/house.png"
 import kakurega from "../assets/kakurega.png"
 import { FadeIn } from "../animations/FadeIn"
+import { useAppDispatch, useAppSelector } from "../hooks/useGeneral"
 import { FetchItemResult, Item, useFetchItems } from "../hooks/api/nft-buildings/useFetchItems"
+import { useEffect, useLayoutEffect, useMemo } from "react"
+import { loadAccount, loadNetwork, loadProvider } from "../hooks/provider/interactions"
+import { loadNFT } from "../hooks/nft/interactions"
+import { loadItems, loadMarket } from "../hooks/market/interactions"
 
 
+export const NFTBuildings =() =>{
+  const dispatch = useAppDispatch()
 
-export const Buildings =() =>{
+  const provider = useAppSelector(state => state.provider.connection);
+  const market = useAppSelector(state => state.market.contract);
+  const nft = useAppSelector(state => state.nft.contract);
+  const gettingItems = useAppSelector(state => state.market.items);
 
-  const networkHandler = async () => {
-    await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0xa869" }]
-    }).then(() =>  window.location.href = '/nft-buildings');
-}
+  const loadBlockchainData = async () => {
+    const provider = loadProvider(dispatch);
+    const chainId = await loadNetwork(dispatch, provider);
+    const nft = await loadNFT(dispatch, provider, chainId)
+    const market = await loadMarket(dispatch, provider, chainId);
+    window.ethereum.on('chainChanged', () => {
+        window.location.reload();
+    })
+    window.ethereum.on('accountsChanged', () => {
+        loadAccount(dispatch, provider);
+    })
+  }
+
+  //const {data: gettingItems, refetch: refetchItems} = useFetchItems({ market, nft});
+
+  useLayoutEffect(() => {
+    loadBlockchainData()
+  },[])
+
+  useEffect(() => {
+    if(!nft || !market){return};
+    loadItems(dispatch, market, nft);
+  },[nft, market])
+
     return(
         <body>
             <header className="flex flex-col text-white">
                 <div className="buildings-background-image flex flex-row justify-between">
-                    <p className="text-5xl pt-5 pl-10 fadeIn">Buildings</p>
+                    <p className="text-5xl pt-5 pl-10 fadeIn">NFT Buildings</p>
                     <div className="flex flex-row items-center mr-10 gap-x-4">
-                    
-                      <p onClick={() => networkHandler()} className="text-xl hover:text-blue-300 focused:text-blue-500">NFT buildings</p>
-                    
+                    <a href="/buildings">
+                      <p className="text-xl hover:text-blue-300 focused:text-blue-500">Buildings</p>
+                    </a>
                     <a href="/">
                         <p className="text-xl hover:text-blue-300 focused:text-blue-500">Home</p>
                     </a>
@@ -89,18 +118,21 @@ export const Buildings =() =>{
                <a href="" className="mx-1 hover:text-blue-300">8</a>
                <a href="" className='hover:text-blue-300'>Next</a>
              </div>
-              <a href="/kakurega" className="w-full px-2 md:w-3/5 h-auto">
-              <div className="flex flex-row h-[144px] justify-start bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50 overflow-y-auto">
-                <img alt="" src={kakurega} className="w-1/3 h-auto object-cover rounded-l-lg"/>
+            
+              {gettingItems && gettingItems.map((item:FetchItemResult, i:number) => {
+                return(
+                  <div key={i} className="w-full px-2 md:w-3/5 h-auto">
+                 <div className="flex flex-row h-[144px] justify-start bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50 overflow-y-auto">
+                <img alt="" src={item?.images[0]} className="w-1/3 h-auto object-cover rounded-l-lg"/>
                 <div className="flex flex-col items-start justify-center text-black ml-5">
-                    <p className="text-sm">Building name: Hotel Kakurega in Narita</p>
-                    <p className="text-sm">Company: Thoroughbred Inc.</p>
-                    <p className="text-sm">Address: 982-1, Saiwai-cho, Narita-shi, Chiba-ken</p>
-                    <p className="text-sm">Comment: Hello! In our hotel, there are hinokiburos which are bathtubs made of Hinoki tree
-                     in all rooms, so you can soak in and enjoy the good smell of nature.</p>
+                    <p className="text-sm">Building name: {item.name}</p>
+                    <p className="text-sm">Address: {item.address}</p>
+                    <p className="text-sm">Descripton: {item.description}</p>
                 </div>
               </div>
-              </a>
+              </div>
+                )
+              })}
               
             </section>
             <footer className="flex flex-row justify-center mt-10">
