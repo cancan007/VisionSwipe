@@ -5,14 +5,15 @@ import kakurega from "../assets/kakurega.png"
 import { FadeIn } from "../animations/FadeIn"
 import { useAppDispatch, useAppSelector } from "../hooks/useGeneral"
 import { FetchItemResult, Item, useFetchItems } from "../hooks/api/nft-buildings/useFetchItems"
-import { useEffect, useLayoutEffect, useMemo } from "react"
+import { useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { loadAccount, loadNetwork, loadProvider } from "../hooks/provider/interactions"
 import { loadNFT } from "../hooks/nft/interactions"
 import { loadItems, loadMarket } from "../hooks/market/interactions"
-
+import { NFTBuildingDetailModal } from "../components/nft-buildings/NFTBuildingDetail"
 
 export const NFTBuildings =() =>{
   const dispatch = useAppDispatch()
+  const [itemInfo, setItemInfo] = useState<FetchItemResult>();
 
   const provider = useAppSelector(state => state.provider.connection);
   const market = useAppSelector(state => state.market.contract);
@@ -118,10 +119,10 @@ export const NFTBuildings =() =>{
                <a href="" className="mx-1 hover:text-blue-300">8</a>
                <a href="" className='hover:text-blue-300'>Next</a>
              </div>
-            
               {gettingItems && gettingItems.map((item:FetchItemResult, i:number) => {
                 return(
-                  <div key={i} className="w-full px-2 md:w-3/5 h-auto">
+                    
+                  <div key={i} onClick={() => setItemInfo(item)} className="w-full px-2 md:w-3/5 h-auto">
                  <div className="flex flex-row h-[144px] justify-start bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50 overflow-y-auto">
                 <img alt="" src={item?.images[0]} className="w-1/3 h-auto object-cover rounded-l-lg"/>
                 <div className="flex flex-col items-start justify-center text-black ml-5">
@@ -133,8 +134,10 @@ export const NFTBuildings =() =>{
               </div>
                 )
               })}
-              
             </section>
+            {itemInfo && (
+                <NFTBuildingDetailModal {...itemInfo} setItemInfo={setItemInfo}/>
+            )}
             <footer className="flex flex-row justify-center mt-10">
           <p className="text-black text-sm">CopyRight (C) 2022 VisionSwipe All rights reserved.</p>
         </footer>

@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import store from './hooks/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
