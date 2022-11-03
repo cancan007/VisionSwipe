@@ -30,7 +30,7 @@ contract VSMarket is Ownable ,ReentrancyGuard{
     }
 
    mapping(uint256=> address) basicPriceFeeds; // 0=>usd, 1=>yen
-   address[] private authors;
+   address[] public authors;
 
     constructor(uint256 _network){
         vsOwner = payable(msg.sender);

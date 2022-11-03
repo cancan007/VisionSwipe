@@ -1,0 +1,1 @@
+export const gasLimit = 700000;

@@ -19,12 +19,12 @@ export const NFTBuildings =() =>{
   const market = useAppSelector(state => state.market.contract);
   const nft = useAppSelector(state => state.nft.contract);
   const gettingItems = useAppSelector(state => state.market.items);
-
   const loadBlockchainData = async () => {
     const provider = loadProvider(dispatch);
     const chainId = await loadNetwork(dispatch, provider);
     const nft = await loadNFT(dispatch, provider, chainId)
     const market = await loadMarket(dispatch, provider, chainId);
+    loadAccount(dispatch,provider)
     window.ethereum.on('chainChanged', () => {
         window.location.reload();
     })
