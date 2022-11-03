@@ -10,15 +10,20 @@ const fs = require('fs');
 const fse = require('fs-extra');
 
 async function main() {
+let network;
+const {chainId} = await ethers.provider.getNetwork();
+if(chainId === 43114){
+    network = 0; // MAINNET AVALANCHE
+} else {
+    network = 1; // TESTNET AVALANCHE FUJI
+}
   const VSMarket = await ethers.getContractFactory('VSMarket');
-  const market = await VSMarket.deploy();
+  const market = await VSMarket.deploy(network);
   await market.deployed();
   
   const NFT = await ethers.getContractFactory('NFT');
   const nft = await NFT.deploy(market.address);
   await nft.deployed();
-
-  const {chainId} = await ethers.provider.getNetwork();
 
   let toJson = {
     [chainId.toString()]: {

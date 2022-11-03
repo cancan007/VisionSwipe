@@ -1,13 +1,18 @@
 import '../../detail.css'
 import { FadeIn } from '../../animations/FadeIn'
 import { FetchItemResult } from '../../hooks/api/nft-buildings/useFetchItems'
-import { memo, useRef } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { Box, Text } from '@chakra-ui/react'
-import { formEth, parseEth } from '../../utils/general'
+import { convertToAvax, formEth } from '../../utils/general'
 import {AiOutlineCloseCircle} from 'react-icons/ai';
 import { IconContext } from 'react-icons'
+import { useAppSelector } from '../../hooks/useGeneral'
+import { BigNumber } from 'ethers'
 
 export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo: any})=>{
+  const market = useAppSelector(state => state.market.contract);
+  const [formedAVAX, setFormedAvax] = useState<BigNumber>()
+  
   const scrollElement:any = useRef(null)
 
     const scrollLeft = () => {
@@ -16,6 +21,13 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
     const scrollRight = () =>{
       scrollElement.current.scrollLeft += scrollElement.current.offsetWidth
     }
+    
+
+    useEffect(() => {
+      convertToAvax(market, item.priceUnit, item.price).then(res => {
+        setFormedAvax(res);
+      })
+    },[market, item.price, item.priceUnit])
 
     return(
         <Box className="fixed top-8 bg-white bg-opacity-75 m-10 rounded-lg">
@@ -45,7 +57,8 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
                   <p>Address: {item.address}</p> 
                   <Text>Building Type: {item.buildingType}</Text>
                   <Text>Sale Type: {item.saleType}</Text>
-                  <Text>Price: {item.price.toString()}{formEth(item.priceUnit) === '0' ? '$' : 'Yen'}</Text>
+                  <Text>Price: {formEth(item.price)}{Number(formEth(item.priceUnit)) === 0 ? '$' : 'Yen'}</Text>
+                  <Text>AVAX price: {formedAVAX ? formEth(formedAVAX) : null}</Text>
                   <Text>Description: {item.description}</Text>
                 </div>
                 

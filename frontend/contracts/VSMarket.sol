@@ -17,19 +17,31 @@ contract VSMarket is Ownable ,ReentrancyGuard{
     address payable vsOwner;
     //uint256 listingPrice = 0.025 ether;
 
+    // Avalanche Main net
     address avax_usd_priceFeed = 0x0A77230d17318075983913bC2145DB16C7366156;
     address jpy_usd_priceFeed = 0xf8B283aD4d969ECFD70005714DD5910160565b94;
+
+    address test_avax_usd_priceFeed = 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD;
+    //address test_jpy_usd_priceFeed =  no jpy price feed on avalanche testnet;
     
+    enum NETWORK {
+        MAINNET,
+        TESTNET
+    }
 
    mapping(uint256=> address) basicPriceFeeds; // 0=>usd, 1=>yen
    address[] private authors;
 
-    constructor(){
+    constructor(uint256 _network){
         vsOwner = payable(msg.sender);
         authors.push(msg.sender);
         _authorIds.increment();
-        basicPriceFeeds[0] = avax_usd_priceFeed;
-        basicPriceFeeds[1] = jpy_usd_priceFeed;
+        if(_network == uint256(NETWORK.MAINNET)){
+            basicPriceFeeds[0] = avax_usd_priceFeed;
+            basicPriceFeeds[1] = jpy_usd_priceFeed;
+        }else if(_network == uint256(NETWORK.TESTNET)){
+            basicPriceFeeds[0] = test_avax_usd_priceFeed;
+        }
     }
 
     receive() external payable {
