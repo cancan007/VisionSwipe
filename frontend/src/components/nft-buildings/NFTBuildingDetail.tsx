@@ -19,6 +19,10 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
     onSuccess: (res) => {
       alert('Succeeded to buy the building NFT');
       item.setItemInfo(undefined);
+      window.location.reload();
+    },
+    onError: (err) => {
+      alert(err);
     }
   });
   

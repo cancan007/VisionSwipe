@@ -149,7 +149,7 @@ contract VSMarket is Ownable ,ReentrancyGuard{
             require(idToMarketItem[itemId].cancelled == false, "This item is already cancelled");
             require(msg.value >= convertToAvax(priceUnit, price), "You need more Avax");
             uint256 feePercent = idToMarketItem[itemId].feePercent;
-            uint256 fee = (msg.value*feePercent)/10**18;
+            uint256 fee = (msg.value*feePercent)/10**18/10**2;
 
             idToMarketItem[itemId].owner = payable(msg.sender);
             idToMarketItem[itemId].sold = true;
