@@ -4,5 +4,17 @@
     background-image: url("./assets/buildings-image.png");
     background-position: 0% 60%;
     width:100%;
-    height:200px;
+    height:150px;
+}
+
+.nft-buildings-background-image{
+    background-image: url('https://res.cloudinary.com/dbfpsigax/image/upload/v1667535263/VisionSwipe/NFTBuildingsImage_x47gae.png');
+    width: 100%;
+    height: 150px;
+}
+
+.my-nft-buildings-background-image{
+    background-image: url('https://res.cloudinary.com/dbfpsigax/image/upload/v1667535955/VisionSwipe/image-from-rawpixel-id-6751733-original_ftvcjr.png');
+    width:100%;
+    height: 150px;
 }

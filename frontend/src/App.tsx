@@ -13,6 +13,7 @@ import { KakuregaAdmin } from './pages/KakuregaAdmin';
 import { ChakraProvider } from '@chakra-ui/react'
 import { Admin } from './pages/Admin';
 import { NFTBuildings } from './pages/NFTBuildings';
+import { MyNFTs } from './pages/MyNFTs';
 
 function App() {
   const PUBLIC_KEY : any = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
@@ -31,6 +32,7 @@ function App() {
         <Route path="/" element={<Landing/>}/>
         <Route path="/buildings" element={<Buildings/>}/>
         <Route path="/nft-buildings" element={<NFTBuildings/>}/>
+        <Route path="/my-nfts" element={<MyNFTs/>}/>
         <Route path="/kakurega" element={<BuildingDetail/>}/>
         <Route path="/kakurega/admin" element={<KakuregaAdmin/>}/>
         <Route path="/contact" element={<Contact/>}/>

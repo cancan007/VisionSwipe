@@ -1,25 +1,12 @@
 import axios from "axios";
 import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
-import { nftType } from "../../../pages/Admin";
 
 interface FetchItemsProps {
     market: any;
     nft: any;
 }
 
-export interface Item {
-    itemId: BigNumber;
-    nftContract: string;
-    tokenId: BigNumber;
-    seller: string;
-    owner: string;
-    price: BigNumber;
-    priceUnit: BigNumber; 
-    feePercent: BigNumber;
-    cancelled: BigNumber;
-    sold: boolean;
-}
 
 export type FetchItemResult = Item & Omit<nftType, 'price' | 'priceUnit' | 'feePercent'>
 

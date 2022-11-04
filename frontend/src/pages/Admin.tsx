@@ -19,17 +19,6 @@ interface Image {
     src: string;
 }
 
-export interface nftType {
-  name: string;
-  buildingType: string;
-  saleType: string;
-  description: string;
-  priceUnit: string;
-  price: string;
-  feePercent: string;
-  address: string;
-  images: string[];
-}
 
 export const Admin = () => {
   const auth = useAppSelector(state => state.provider.authentication);

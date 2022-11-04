@@ -2,7 +2,7 @@ import "../buildings.css"
 import visionSwipe from "../assets/vision-swipe.png"
 import kakurega from "../assets/kakurega.png"
 import { FadeIn } from "../animations/FadeIn"
-import { FetchItemResult, Item, useFetchItems } from "../hooks/api/nft-buildings/useFetchItems"
+import { FetchItemResult, useFetchItems } from "../hooks/api/nft-buildings/useFetchItems"
 
 
 
@@ -28,8 +28,8 @@ export const Buildings =() =>{
                     </a>
                     </div>
                 </div>
-                <div className="bg-black w-full flex flex-col items-center pt-5">
-                  <img className="fadeIn" src={visionSwipe} />
+                <div className="bg-black w-full flex flex-col items-center py-2">
+                  <img className="fadeIn h-[50px] w-auto mb-2" src={visionSwipe} />
                   <div className="flex flex-col md:flex-row items-center w-4/5">
                     <input className='bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' type='text' placeholder="Search from buiding name"/>
                     <div className="flex flex-row">
