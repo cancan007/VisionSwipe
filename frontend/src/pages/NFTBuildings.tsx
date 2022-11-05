@@ -124,7 +124,7 @@ export const NFTBuildings =() =>{
                     
                   <div key={i} onClick={() => setItemInfo(item)} className="w-full px-2 md:w-3/5 h-auto">
                  <div className="flex flex-row h-[144px] justify-start bg-gray-300 mt-5 rounded-lg cursor-pointer hover:opacity-50 overflow-y-auto">
-                <img alt="" src={item?.images[0]} className="w-1/3 h-auto object-cover rounded-l-lg"/>
+                <img alt="" src={item.images ? item?.images[0] : item.image} className="w-1/3 h-auto object-cover rounded-l-lg"/>
                 <div className="flex flex-col items-start justify-center text-black ml-5">
                     <p className="text-sm">Building name: {item.name}</p>
                     <p className="text-sm">Address: {item.address}</p>

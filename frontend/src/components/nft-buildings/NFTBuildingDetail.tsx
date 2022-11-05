@@ -55,11 +55,14 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
                 <div className=" flex flex-row items-center w-full md:w-1/2 h-auto px-1 ">
               <button onClick={()=>scrollLeft()} className="h-0 w-0 border-y-8 border-y-transparent border-r-[16px] border-r-gray-600 hover:border-r-gray-300"></button>
                 <div ref={scrollElement} id="slider" className="flex flex-row  mb-0  md:mx-1 overflow-x-scroll scroll-smooth">
-                  {item.images.map((image:string,i:number)=>{
+                  {item.images ? item.images.map((image:string,i:number)=>{
                     return(
                       <img className="object-contain max-h-[250px] md:max-h-[500px]" src={image}/>
                     )
-                  })}
+                  }) : 
+                  item.image && (
+                    <img className="object-contain max-h-[250px] md:max-h-[500px]" src={item.image}/>
+                  )}
                 </div>
                 <button onClick={()=>scrollRight()} className="h-0 w-0 border-y-8 border-y-transparent border-l-[16px] border-l-gray-600 hover:border-l-gray-300"></button>
                 </div>

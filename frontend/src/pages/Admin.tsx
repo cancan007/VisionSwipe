@@ -13,6 +13,7 @@ import { createDispatchHook } from 'react-redux';
 import { useCreateNFT } from '../hooks/api/admin/useCreateNFT';
 import { useCreateMarketItem } from '../hooks/api/admin/useCreateMarketItem';
 import { allowedNodeEnvironmentFlags } from 'process';
+import { fetchAuthors } from '../hooks/api/admin/useFetchAuthors';
 
 interface Image {
     id: number;
@@ -38,6 +39,8 @@ export const Admin = () => {
       const chainId = await loadNetwork(dispatch, provider);
       const nft = await loadNFT(dispatch, provider, chainId)
       const market = await loadMarket(dispatch, provider, chainId);
+      const authors = await fetchAuthors({market:market});
+      console.log(authors)
       account = await loadAccount(dispatch, provider);
       if(account !== process.env.REACT_APP_METAMASK_PUBLIC_ADDRESS){
         window.location.href = '/';

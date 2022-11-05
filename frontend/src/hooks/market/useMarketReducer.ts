@@ -4,6 +4,7 @@ import { FetchItemResult } from "../api/nft-buildings/useFetchItems";
 interface marketType {
     contract?: Object;
     items?: FetchItemResult[];
+    myItems?: FetchItemResult[];
 };
 export const marketReducer = (state:marketType = {}, action: AnyAction) => {
     switch(action.type) {
@@ -16,6 +17,11 @@ export const marketReducer = (state:marketType = {}, action: AnyAction) => {
             return{
                 ...state,
                 items: action.items,
+            }
+        case "MY_ITEMS_LOADED":
+            return{
+                ...state,
+                myItems: action.myItems,
             }
         default:
             return state;

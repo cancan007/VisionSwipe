@@ -20,5 +20,6 @@ interface nftType {
     price: string;
     feePercent: string;
     address: string;
-    images: string[];
+    image?:string;
+    images?: string[];
   }

@@ -13,12 +13,12 @@ export const fetchMyNFTs = async({market, nft, provider}: FetchMyNFTsProps) => {
     const signer = await provider.getSigner();
     const items = await market.connect(signer).fetchMyNFTs();
     const result:FetchMyNFTsResult[] = await Promise.all(items.map(async(item:Item,i:number) => {
-        //const {itemId, nftContract, tokenId, seller, owner, cancelled, sold} = item;
+        const {itemId, nftContract, tokenId, seller, owner, cancelled, sold} = item;
         const tokenURI = await nft.tokenURI(item.tokenId);
         const meta = await axios.get(tokenURI);
         const {price, priceUnit, feePercent, ...args} = meta.data;
-        //return {itemId, nftContract, tokenId, seller, owner, cancelled, sold, ...meta.data};
-        return {...item, ...args};
+        return {itemId, nftContract, tokenId, seller, owner, cancelled, sold, ...meta.data};
+        //return {...item, ...args};
     }))
     return result
 }

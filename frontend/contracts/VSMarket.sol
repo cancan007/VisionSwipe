@@ -247,8 +247,10 @@ contract VSMarket is Ownable ,ReentrancyGuard{
 
     }
 
-    function fetchAllAuthors() public onlyOwner view returns(address[] memory){
-        return authors;
+    function fetchAllAuthors() public view returns(address[] memory){
+        address[] memory authorsArray = new address[](_authorIds.current());
+        authorsArray = authors;
+        return authorsArray;
     }
 
     function getAvaxUsdValue()
