@@ -22,4 +22,6 @@ interface nftType {
     address: string;
     image?:string;
     images?: string[];
+    company?: string,
+    companyEmail?: string,
   }

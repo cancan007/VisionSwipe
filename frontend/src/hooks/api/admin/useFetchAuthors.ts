@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 
 
 export const fetchAuthors = async({market}:any):Promise<Array<string>> => {
-  const authors = await market.authors();
+  const authors = await market.fetchAllAuthors();
   return authors;
 }
 

@@ -50,6 +50,9 @@ export const NFTBuildings =() =>{
                 <div className="nft-buildings-background-image flex flex-row justify-between">
                     <p className="text-5xl pt-5 pl-10 fadeIn">NFT Buildings</p>
                     <div className="flex flex-row items-center mr-10 gap-x-4">
+                      <a href="/my-nfts">
+                        <p className="text-xl hover:text-blue-300 focused:text-blue-500">My NFTs</p>
+                      </a>
                     <a href="/buildings">
                       <p className="text-xl hover:text-blue-300 focused:text-blue-500">Buildings</p>
                     </a>

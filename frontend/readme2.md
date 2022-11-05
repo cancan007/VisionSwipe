@@ -11,3 +11,5 @@ npm install --save @fullcalendar/react @fullcalendar/daygrid
  npm i @fullcalendar/interaction
 
  npm install --save @nestjs/serve-static
+
+ipfs daemon で出てくる画像と出てこない画像がある

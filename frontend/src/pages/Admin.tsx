@@ -34,15 +34,15 @@ export const Admin = () => {
     //window.location.href = '/dashboard';
     }
     const loadBlockchainData = async () => {
-      let account;
+      let account:string;
       const provider = loadProvider(dispatch);
       const chainId = await loadNetwork(dispatch, provider);
       const nft = await loadNFT(dispatch, provider, chainId)
       const market = await loadMarket(dispatch, provider, chainId);
       const authors = await fetchAuthors({market:market});
-      console.log(authors)
       account = await loadAccount(dispatch, provider);
-      if(account !== process.env.REACT_APP_METAMASK_PUBLIC_ADDRESS){
+      const author = authors.find(u => u === account);
+      if(!author){
         window.location.href = '/';
       }
       window.ethereum.on('chainChanged', () => {
@@ -51,7 +51,9 @@ export const Admin = () => {
 
       window.ethereum.on('accountsChanged', async() => {
           account = await loadAccount(dispatch, provider);
-          if(account !== process.env.REACT_APP_METAMASK_PUBLIC_ADDRESS){
+          const authors = await fetchAuthors({market:market});
+          const author2 = authors.find(u => u === account);
+          if(!author2){
             window.location.href = '/';
           }
       })
@@ -115,7 +117,12 @@ export const Admin = () => {
     }
    });
    const createItemHandler = async() => {
-    if(!info || !info.name || !info.buildingType || !info.saleType || !info.description || !info.priceUnit || !info.price || !info.address || !info.images?.length || !info.feePercent){
+    if(!info 
+      || !info.name || !info.buildingType 
+      || !info.saleType || !info.description 
+      || !info.priceUnit || !info.price 
+      || !info.address || !info.images?.length 
+      || !info.feePercent || !info.company || !info.companyEmail){
       alert('Filll all forms');
       return
     }
@@ -128,7 +135,9 @@ export const Admin = () => {
       price: info.price,
       feePercent: info.feePercent,
       address: info.address,
-      images: info.images
+      images: info.images,
+      company: info.company,
+      companyEmail: info.companyEmail
     }
     const buildingJson = JSON.stringify(building);
     const res = await client.add(buildingJson);
@@ -146,7 +155,7 @@ export const Admin = () => {
 
   return (
     
-    <Container maxWidth={'600px'} className="h-screen flex flex-col justify-center">
+    <Container maxWidth={'600px'} className="h-screen flex flex-col justify-center mt-32">
       <Heading>
         <title>Admin</title>
       </Heading>
@@ -187,6 +196,8 @@ export const Admin = () => {
     </Box>
     <Input value={info?.feePercent} onChange={(e:any) => setInfo({...info, feePercent: e.target.value})} type="number" placeholder='Fee Percent'/>
     <Input value={info?.address} onChange={(e:any) => setInfo({...info, address: e.target.value})} type="text" placeholder="Address"/>
+    <Input value={info?.company} onChange={(e:any) => setInfo({...info, company: e.target.value})} type="text" placeholder='Company'/>
+    <Input value={info?.companyEmail} onChange={(e:any) => setInfo({...info, companyEmail: e.target.value})} type="email" placeholder='Company Email'/>
     <div {...getRootProps()} className="h-[300px] rounded-lg w-full border-2 flex flex-col items-center justify-center relative">
       <IconContext.Provider value={{className: "absolute -z-1 w-full", size:"2em"}}>
       <FcAddImage/>
@@ -199,7 +210,7 @@ export const Admin = () => {
         : <></>}
         </Box>
     </div>
-    <Button onClick={() => addImagesToIpfs()} colorScheme={'pink'} variant={'outline'}>Upload Images</Button>
+    <Button onClick={() => addImagesToIpfs().catch(err=>alert('Error occured'))} colorScheme={'pink'} variant={'outline'}>Upload Images</Button>
     <Button onClick={() => createItemHandler()} colorScheme={'blue'} variant={'outline'}>Create NFT</Button>
     </Box>
     </Container>

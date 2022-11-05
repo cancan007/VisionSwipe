@@ -69,7 +69,8 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
                 <div className="building-info-section flex flex-col items-start justify-center w-4/5 md:w-1/2 p-1 md:ml-10">
                   
 
-                  <p className='mt-1 md:mt-5'>Building name: {item.name}</p>
+                  <p className='mt-1 md:mt-5 text-2xl'>Building name: {item.name}</p>
+                  <Text>Company: {item.company}</Text>
                   <p>Address: {item.address}</p> 
                   <Text>Building Type: {item.buildingType}</Text>
                   <Text>Sale Type: {item.saleType}</Text>

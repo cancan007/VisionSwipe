@@ -12,7 +12,7 @@ export const loadNetwork = async (dispatch: any, provider: any) => {
     return chainId;
 }
 
-export const loadAccount = async (dispatch: any, provider: any) => {
+export const loadAccount = async (dispatch: any, provider: any):Promise<string> => {
     const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
     const account = ethers.utils.getAddress(accounts[0]);
     let auth:boolean;

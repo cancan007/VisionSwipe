@@ -16,13 +16,12 @@ export const MyNFTs = () => {
     const provider = useAppSelector(state => state.provider.connection);
     const myItems:FetchItemResult[] = useAppSelector(state => state.market.myItems);
     //const {data:gettingMyNfts, isLoading: isLoadingMyNfts} = useFetchMyNFTs({market, nft, provider});
-    console.log(myItems)
     useLayoutEffect(() => {
         loadBlockchainData(dispatch);
     },[])
     useEffect(() => {
         if(!market || !nft || !provider) return;
-        loadMyItems(dispatch, market, nft, provider).then(data => console.log(data));
+        loadMyItems(dispatch, market, nft, provider);
     },[market, nft, provider])
 
     return(
