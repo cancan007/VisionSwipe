@@ -10,10 +10,13 @@ import { loadAccount, loadNetwork, loadProvider } from "../hooks/provider/intera
 import { loadNFT } from "../hooks/nft/interactions"
 import { loadItems, loadMarket } from "../hooks/market/interactions"
 import { NFTBuildingDetailModal } from "../components/nft-buildings/NFTBuildingDetail"
+import { useDisclosure } from "@chakra-ui/react"
+import { EmailFormModal } from "../components/nft-buildings/EmailFormModal"
 
 export const NFTBuildings =() =>{
   const dispatch = useAppDispatch()
   const [itemInfo, setItemInfo] = useState<FetchItemResult>();
+  //const { isOpen, onOpen, onClose } = useDisclosure();
 
   const provider = useAppSelector(state => state.provider.connection);
   const market = useAppSelector(state => state.market.contract);

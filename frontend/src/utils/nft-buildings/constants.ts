@@ -1,0 +1,1 @@
+export const nftBuildingTempEmailId = process.env.REACT_APP_EMAILJS_NFT_NOTIFICATION_TEMPID

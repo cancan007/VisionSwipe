@@ -81,7 +81,8 @@ contract VSMarket is Ownable ,ReentrancyGuard{
         uint256 priceUnit,
         uint256 feePercent,
         bool cancelled,
-        bool sold
+        bool sold,
+        uint256 txTime
     );
 
     event MarketItemCancelled(
@@ -94,7 +95,22 @@ contract VSMarket is Ownable ,ReentrancyGuard{
         uint256 priceUnit,
         uint256 feePercent,
         bool cancelled,
-        bool sold
+        bool sold,
+        uint256 txTime
+    );
+
+    event MarketItemSold(
+        uint256 indexed itemId,
+        address indexed nftContract,
+        uint256 indexed tokenId,
+        address seller,
+        address owner,
+        uint256 price,
+        uint256 priceUnit,
+        uint256 feePercent,
+        bool cancelled,
+        bool sold,
+        uint256 txTime
     );
 
     function createMarketItem(
@@ -132,7 +148,8 @@ contract VSMarket is Ownable ,ReentrancyGuard{
             priceUnit,
             feePercent,
             false,
-            false
+            false,
+            block.timestamp
         );
     }
 
@@ -160,6 +177,20 @@ contract VSMarket is Ownable ,ReentrancyGuard{
             vsOwner.transfer(fee);
             idToMarketItem[itemId].seller.transfer(msg.value - fee);
             IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+
+            emit MarketItemSold(
+                itemId,
+                idToMarketItem[itemId].nftContract,
+                idToMarketItem[itemId].tokenId,
+                idToMarketItem[itemId].seller,
+                idToMarketItem[itemId].owner,
+                idToMarketItem[itemId].price,
+                idToMarketItem[itemId].priceUnit,
+                idToMarketItem[itemId].feePercent,
+                idToMarketItem[itemId].cancelled,
+                idToMarketItem[itemId].sold,
+                block.timestamp
+            );
         }
 
     function cancelMarketItem(
@@ -171,7 +202,19 @@ contract VSMarket is Ownable ,ReentrancyGuard{
           idToMarketItem[itemId].cancelled = true;
           _itemCancelled.increment();
           MarketItem storage item =  idToMarketItem[itemId];
-          emit MarketItemCancelled(itemId, item.nftContract, item.tokenId, item.seller, item.owner, item.price, item.priceUnit, item.feePercent, item.cancelled, item.sold);
+          emit MarketItemCancelled(
+            itemId, 
+            item.nftContract, 
+            item.tokenId, 
+            item.seller, 
+            item.owner, 
+            item.price, 
+            item.priceUnit, 
+            item.feePercent, 
+            item.cancelled, 
+            item.sold,
+            block.timestamp
+            );
     }
 
     function addAuthor(address _newAuthor) public onlyOwner {

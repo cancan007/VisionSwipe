@@ -2,7 +2,7 @@ import '../../detail.css'
 import { FadeIn } from '../../animations/FadeIn'
 import { FetchItemResult } from '../../hooks/api/nft-buildings/useFetchItems'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Box, Button, Modal, Text, useDisclosure } from '@chakra-ui/react'
 import { convertToAvax, formEth } from '../../utils/general'
 import {AiOutlineCloseCircle} from 'react-icons/ai';
 import { IconContext } from 'react-icons'
@@ -10,13 +10,33 @@ import { useAppSelector } from '../../hooks/useGeneral'
 import { BigNumber } from 'ethers'
 import { useCreateMarketSale } from '../../hooks/api/nft-buildings/useCreateMarketSale'
 import { addCommissionToPrice } from '../../utils/nft-buildings/general'
+import { EmailFormModal } from './EmailFormModal'
+import emailjs from 'emailjs-com';
+import { serviceEmailId, userEmailId } from '../../utils/constants'
+import { nftBuildingTempEmailId } from '../../utils/nft-buildings/constants'
+
+export interface Customer{
+  name: string;
+  email: string;
+  contact: string;
+  country: string;
+}
 
 export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo: any})=>{
   const market = useAppSelector(state => state.market.contract);
   const provider = useAppSelector(state => state.provider.connection);
   const [formedAVAX, setFormedAvax] = useState<BigNumber>()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const customerRef = useRef(null);
   const {data:gettingCreateSaleTx, mutate: mutateCreateMarketSale} = useCreateMarketSale({
     onSuccess: (res) => {
+      if(serviceEmailId && nftBuildingTempEmailId && userEmailId && customerRef.current){
+        emailjs.sendForm(
+          serviceEmailId,
+          nftBuildingTempEmailId,
+          customerRef.current,
+          userEmailId
+      ).then(()=>onClose())}
       alert('Succeeded to buy the building NFT');
       item.setItemInfo(undefined);
       window.location.reload();
@@ -25,6 +45,15 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
       alert(err);
     }
   });
+
+  const handleBuy = () => {
+    if(!formedAVAX) return;
+    if(!customerRef.current) {
+      alert('You have to register your information.');
+      return;
+    }
+    mutateCreateMarketSale({market,provider, item, value:addCommissionToPrice(formedAVAX, 2)})
+  }
   
   const scrollElement:any = useRef(null)
 
@@ -43,7 +72,9 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
     },[market, item.price, item.priceUnit])
 
     return(
-        <Box className="fixed top-8 bg-white bg-opacity-75 m-10 rounded-lg">
+      <>
+        <Box className="flex flex-col items-center w-full">
+          <Box className="fixed top-[20vh] bg-white bg-opacity-75 rounded-lg">
             <Box className={'w-full flex flex-row justify-end'}>
             <IconContext.Provider value={{className: "mt-3 mr-3", size:"2em"}}>
               <AiOutlineCloseCircle onClick={() => item.setItemInfo(undefined)}/>
@@ -51,7 +82,7 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
             </Box>
             <section className="flex flex-col items-center ">
                 <FadeIn>
-              <div className="flex flex-col items-center md:flex-row md:justify-center w-full mt-5">
+              <div className="flex flex-col items-center md:flex-row md:justify-center w-full mt-2">
                 <div className=" flex flex-row items-center w-full md:w-1/2 h-auto px-1 ">
               <button onClick={()=>scrollLeft()} className="h-0 w-0 border-y-8 border-y-transparent border-r-[16px] border-r-gray-600 hover:border-r-gray-300"></button>
                 <div ref={scrollElement} id="slider" className="flex flex-row  mb-0  md:mx-1 overflow-x-scroll scroll-smooth">
@@ -78,11 +109,17 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
                   <Text>Price in AVAX: {formedAVAX ? Math.round(Number(formEth(formedAVAX))*1000)/1000 : null}AVAX</Text>
                   <Text className="text-xs">*Commission fee is 2AVAX</Text>
                   <Text>Description: {item.description}</Text>
-                  <Button onClick={formedAVAX ? () => mutateCreateMarketSale({market,provider, item, value:addCommissionToPrice(formedAVAX, 2)}) : () => {}} colorScheme={'blue'} variant={'outline'}>Buy</Button>
+                  <Button onClick={formedAVAX ? () =>{
+                    onOpen();
+                    //mutateCreateMarketSale({market,provider, item, value:addCommissionToPrice(formedAVAX, 2)})
+                    } : () => {}} colorScheme={'blue'} variant={'outline'}>Buy</Button>
                 </div>
               </div>
               </FadeIn>
             </section>
-        </Box>
+            </Box>
+          </Box>
+          <EmailFormModal isOpen={isOpen} onClose={onClose} customerRef={customerRef} handleBuy={handleBuy} itemId={item.itemId}/>
+        </>
     )
 });
