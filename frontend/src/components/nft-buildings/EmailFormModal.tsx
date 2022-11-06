@@ -34,7 +34,7 @@ export const EmailFormModal = memo(({isOpen,onClose, customerRef, handleBuy, ite
             <FormControl isRequired>
                 <FormLabel>Your email address</FormLabel>
                 <Input onChange={(e:any) => setCustomer((pre)=>({...pre,email:e.target.value}))} name="customer_email" type='email' />
-                {/*<FormHelperText>We'll never share your email.</FormHelperText>*/}
+                <FormHelperText>We'll contact you with your email or contact number.</FormHelperText>
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Your contact number</FormLabel>

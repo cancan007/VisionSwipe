@@ -1,5 +1,6 @@
-import { Box, Container, Text, Image } from "@chakra-ui/react";
+import { Box, Container, Text, Image, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useLayoutEffect } from "react";
+import { ItemDetailModal } from "../components/my-nfts/ItemDetailModal";
 import { useFetchMyNFTs } from "../hooks/api/my-nfts/useFetchMyNFTs";
 import { FetchItemResult } from "../hooks/api/nft-buildings/useFetchItems";
 import { loadMyItems } from "../hooks/market/interactions";
@@ -11,6 +12,7 @@ import { formEth, loadBlockchainData } from "../utils/general";
 
 export const MyNFTs = () => {
     const dispatch = useAppDispatch();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const market = useAppSelector(state => state.market.contract);
     const nft = useAppSelector(state => state.nft.contract);
     const provider = useAppSelector(state => state.provider.connection);
@@ -42,7 +44,7 @@ export const MyNFTs = () => {
           </header>
           <Box className="w-3/5 min-w-[768px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10">
             {myItems ? myItems.map((item, i:number) => (
-              <Box className="rounded-lg border-2 flex flex-col items-center">
+              <Box onClick={onOpen} className="rounded-lg border-2 flex flex-col items-center cursor-pointer">
                 {item.image && !item.images ? (
                   <Image src={item.image} className="object-cover rounded-t-lg"/>
                 ) :
@@ -55,6 +57,7 @@ export const MyNFTs = () => {
                   <Text className="text-xl font-semibold">{item.name}</Text>
                   <Text className="text-sm">Bought price: {formEth(item.price)}{formEth(item.priceUnit) === '0' ? '$' : 'Yen'}</Text>
                 </Box>
+                <ItemDetailModal isOpen={isOpen} onClose={onClose} item={item}/>
             </Box>
             )): (
                 <></>
