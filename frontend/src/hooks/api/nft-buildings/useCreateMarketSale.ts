@@ -12,7 +12,6 @@ export interface CreateMarketSaleProps{
 
 export const createMarketSale = async({market, provider, item, value}: CreateMarketSaleProps) => {
     const signer = await provider.getSigner();
-    console.log(item.feePercent)
     let tx = await market.connect(signer).createMarketSale(item.nftContract, item.itemId, { gasLimit, value });
     const event = await tx.wait();
     return event;

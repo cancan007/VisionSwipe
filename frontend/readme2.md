@@ -13,3 +13,8 @@ npm install --save @fullcalendar/react @fullcalendar/daygrid
  npm install --save @nestjs/serve-static
 
 ipfs daemon で出てくる画像と出てこない画像がある
+
+
+pinataにはpublic gateway(読み込みが遅い) と　dedicated gateway(限られた人のみがそこから読み込める, 月額で払う必要あり)がある
+  - public gateway: https://gateway.pinata.cloud/ipfs/${res.IpfsHash}
+  - dedicated gateway: https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}

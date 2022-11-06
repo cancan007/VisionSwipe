@@ -178,20 +178,24 @@ contract VSMarket is Ownable ,ReentrancyGuard{
             idToMarketItem[itemId].seller.transfer(msg.value - fee);
             IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
 
-            emit MarketItemSold(
-                itemId,
-                idToMarketItem[itemId].nftContract,
-                idToMarketItem[itemId].tokenId,
-                idToMarketItem[itemId].seller,
-                idToMarketItem[itemId].owner,
-                idToMarketItem[itemId].price,
-                idToMarketItem[itemId].priceUnit,
-                idToMarketItem[itemId].feePercent,
-                idToMarketItem[itemId].cancelled,
-                idToMarketItem[itemId].sold,
+            emitMarketItemSold(itemId);
+        }
+
+    function emitMarketItemSold(uint256 _itemId) private{
+        emit MarketItemSold(
+                _itemId,
+                idToMarketItem[_itemId].nftContract,
+                idToMarketItem[_itemId].tokenId,
+                idToMarketItem[_itemId].seller,
+                idToMarketItem[_itemId].owner,
+                idToMarketItem[_itemId].price,
+                idToMarketItem[_itemId].priceUnit,
+                idToMarketItem[_itemId].feePercent,
+                idToMarketItem[_itemId].cancelled,
+                idToMarketItem[_itemId].sold,
                 block.timestamp
             );
-        }
+    }
 
     function cancelMarketItem(
         //address nftContract,

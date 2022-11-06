@@ -16,7 +16,8 @@ export const fetchItems = async({ market, nft}: FetchItemsProps): Promise<FetchI
     const result:FetchItemResult[] = await Promise.all(items.map(async(item:Item,i:number) => {
         //const {itemId, nftContract, tokenId, seller, owner, cancelled, sold} = item;
         const tokenURI = await nft.tokenURI(item.tokenId);
-        const meta = await axios.get(tokenURI);
+        let meta = await axios.get(tokenURI);
+        //let data = JSON.parse(meta.data)
         const {price, priceUnit, feePercent, ...args} = meta.data;
         //return {itemId, nftContract, tokenId, seller, owner, cancelled, sold, ...meta.data};
         return {...item, ...args};

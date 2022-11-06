@@ -14,6 +14,8 @@ import { useCreateNFT } from '../hooks/api/admin/useCreateNFT';
 import { useCreateMarketItem } from '../hooks/api/admin/useCreateMarketItem';
 import { allowedNodeEnvironmentFlags } from 'process';
 import { fetchAuthors } from '../hooks/api/admin/useFetchAuthors';
+import { uploadFileToIpfs, uploadJsonToIpfs } from '../hooks/api/admin/uploadFlieToIpfs';
+import { pinataDedicatedDomain } from '../utils/admin/constants';
 
 interface Image {
     id: number;
@@ -87,10 +89,12 @@ export const Admin = () => {
         }
         const ipfsImages: Array<string> = []
         for(let i=0; i < acceptedFiles.length; i++) {
-            let res = await client.add({content: acceptedFiles[i]});
-            let url = `https://ipfs.io/ipfs/${res.cid}`;
+            /*let res = await client.add({content: acceptedFiles[i]});
+            let url = `https://ipfs.io/ipfs/${res.cid}`;*/
+            let res = await uploadFileToIpfs(acceptedFiles[i]);
+            //let url = `https://gateway.pinata.cloud/ipfs/${res.IpfsHash}` // public gateway: so slow to show image
+            let url = `https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}` // dedicated gateway: restricted gateway
             ipfsImages.push(url);
-            //console.log(url);
         }
         setInfo((prevState:any) => ({...prevState, images: ipfsImages}));
         alert(`Succeeded to add ${acceptedFiles.length} images to IPFS`);
@@ -140,9 +144,10 @@ export const Admin = () => {
       companyEmail: info.companyEmail
     }
     const buildingJson = JSON.stringify(building);
-    const res = await client.add(buildingJson);
-    const url = `https://ipfs.io/ipfs/${res.cid}`;
-    //console.log(url)
+    //const res = await client.add(buildingJson);
+    const res = await uploadJsonToIpfs(buildingJson)
+    //const url = `https://ipfs.io/ipfs/${res.cid}`;
+    const url = `https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}`;
     mutateCreateNft({provider, nft, tokenURI:url});
    }
 

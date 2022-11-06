@@ -57,7 +57,7 @@ export const Buildings =() =>{
                     </select>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row items-center w-4/5 my-3">
+                  {/*<div className="flex flex-col md:flex-row items-center w-4/5 my-3">
                    <input className='bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' type='text' placeholder="Search from address"/>
                    <div className="flex flex-row">
                    <select className="ml-5 block p-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -80,7 +80,7 @@ export const Buildings =() =>{
                         <option value=""></option>
                     </select>
                     </div>
-                  </div>
+                  </div>*/}
                 </div>
             </header>
             <section className="flex flex-col items-center w-full mt-10">

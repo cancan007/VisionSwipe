@@ -42,14 +42,14 @@ export const MyNFTs = () => {
               </Box>
             </Box>
           </header>
-          <Box className="w-3/5 min-w-[768px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10">
+          <Box className="w-3/5 min-w-[768px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10 gap-2">
             {myItems ? myItems.map((item, i:number) => (
               <Box onClick={onOpen} className="rounded-lg border-2 flex flex-col items-center cursor-pointer">
                 {item.image && !item.images ? (
-                  <Image src={item.image} className="object-cover rounded-t-lg"/>
+                  <Image src={item.image} className="object-cover rounded-t-lg aspect-[4/3]"/>
                 ) :
                 !item.image && item.images ? (
-                    <Image src={item.images[0]} className="object-cover rounded-t-lg"/>
+                    <Image src={item.images[0]} className="object-cover rounded-t-lg aspect-[4/3]"/>
                 ) : (
                     <></>
                 )}
