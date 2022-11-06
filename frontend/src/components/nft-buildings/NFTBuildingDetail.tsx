@@ -20,6 +20,7 @@ export interface Customer{
   email: string;
   contact: string;
   country: string;
+  message: string;
 }
 
 export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo: any})=>{
@@ -73,8 +74,8 @@ export const NFTBuildingDetailModal = memo((item:FetchItemResult & {setItemInfo:
 
     return(
       <>
-        <Box className="flex flex-col items-center w-full">
-          <Box className="fixed top-[20vh] bg-white bg-opacity-75 rounded-lg">
+        <Box className="flex flex-col items-center w-full overflow-y-auto scroll-smooth">
+          <Box className="fixed top-[10vh] bg-white bg-opacity-75 rounded-lg">
             <Box className={'w-full flex flex-row justify-end'}>
             <IconContext.Provider value={{className: "mt-3 mr-3", size:"2em"}}>
               <AiOutlineCloseCircle onClick={() => item.setItemInfo(undefined)}/>

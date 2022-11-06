@@ -55,7 +55,7 @@ export const MyNFTs = () => {
                 )}
                 <Box className="flex flex-col items-start justify-center">
                   <Text className="text-xl font-semibold">{item.name}</Text>
-                  <Text className="text-sm">Bought price: {formEth(item.price)}{formEth(item.priceUnit) === '0' ? '$' : 'Yen'}</Text>
+                  <Text className="text-sm">Bought price: {formEth(item.price)}{Number(formEth(item.priceUnit)) === 0 ? '$' : 'Yen'}</Text>
                 </Box>
                 <ItemDetailModal isOpen={isOpen} onClose={onClose} item={item}/>
             </Box>

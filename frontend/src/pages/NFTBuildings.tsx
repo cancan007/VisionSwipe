@@ -17,11 +17,11 @@ export const NFTBuildings =() =>{
   const dispatch = useAppDispatch()
   const [itemInfo, setItemInfo] = useState<FetchItemResult>();
   //const { isOpen, onOpen, onClose } = useDisclosure();
-
   const provider = useAppSelector(state => state.provider.connection);
   const market = useAppSelector(state => state.market.contract);
   const nft = useAppSelector(state => state.nft.contract);
   const gettingItems = useAppSelector(state => state.market.items);
+  console.log(gettingItems)
   const loadBlockchainData = async () => {
     const provider = loadProvider(dispatch);
     const chainId = await loadNetwork(dispatch, provider);

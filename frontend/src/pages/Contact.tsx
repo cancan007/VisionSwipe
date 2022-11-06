@@ -109,7 +109,7 @@ export const Contact = () => {
                 <p className="text-red-600">*</p>
               </div>
               <div className="flex flex-row justify-center w-full h-full py-5 message-label">
-              <textarea value={message} onChange={(e:any)=>setMessage(e.target.value)} name="message" className="w-4/5 h-full p-2 border-2 border-gray-300 rounded-lg "></textarea>
+              <textarea value={message} onChange={(e:any)=>setMessage(e.target.value)} name="message" className="w-4/5 h-full p-2 border-2 border-gray-300 rounded-lg break-all"></textarea>
               </div>
             </div>
             <hr/>

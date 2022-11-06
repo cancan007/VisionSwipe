@@ -1,4 +1,4 @@
-import { Button, FormControl, FormHelperText, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
+import { Button, FormControl, FormHelperText, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useDisclosure } from "@chakra-ui/react"
 import { prependListener } from "process";
 import { memo, useState } from "react"
 import { Customer } from "./NFTBuildingDetail";
@@ -15,7 +15,6 @@ interface EmailFormProps{
 
 export const EmailFormModal = memo(({isOpen,onClose, customerRef, handleBuy, itemId}:EmailFormProps) => {
   const [customer, setCustomer] = useState<Partial<Customer>>()
-  console.log(customerRef)
     return (
         <>
       {/*<Button onClick={onOpen}>Open Modal</Button>*/}
@@ -43,6 +42,10 @@ export const EmailFormModal = memo(({isOpen,onClose, customerRef, handleBuy, ite
             <FormControl isRequired>
                 <FormLabel>Your country</FormLabel>
                 <Input onChange={(e:any) => setCustomer((pre)=>({...pre,country:e.target.value}))} name="customer_country" type='text' />
+            </FormControl>
+            <FormControl isRequired>
+                <FormLabel>Comment</FormLabel>
+                <Textarea onChange={(e:any) => setCustomer((pre)=>({...pre,message:e.target.value}))} name="message" wordBreak={'break-all'} />
             </FormControl>
             <FormControl>
                 <FormLabel>NFT item ID</FormLabel>

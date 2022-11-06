@@ -93,7 +93,7 @@ export const Admin = () => {
             //console.log(url);
         }
         setInfo((prevState:any) => ({...prevState, images: ipfsImages}));
-        alert(`Succeeded to add ${acceptedFiles.length + 1} images to IPFS`);
+        alert(`Succeeded to add ${acceptedFiles.length} images to IPFS`);
     }
 
    const onDropRejected = useCallback(()=>{
