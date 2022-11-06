@@ -3,10 +3,13 @@ import visionSwipe from "../assets/vision-swipe.png"
 import kakurega from "../assets/kakurega.png"
 import { FadeIn } from "../animations/FadeIn"
 import { FetchItemResult, useFetchItems } from "../hooks/api/nft-buildings/useFetchItems"
+import { useDisclosure } from "@chakra-ui/react"
+import { ConnectToMetamask } from "../components/nft-buildings/ConnectToMetamask"
 
 
 
 export const Buildings =() =>{
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const networkHandler = async () => {
     await window.ethereum.request({
@@ -21,7 +24,7 @@ export const Buildings =() =>{
                     <p className="text-5xl pt-5 pl-10 fadeIn">Buildings</p>
                     <div className="flex flex-row items-center mr-10 gap-x-4">
                     
-                      <p onClick={() => networkHandler()} className="text-xl hover:text-blue-300 focused:text-blue-500">NFT buildings</p>
+                      <p onClick={() => onOpen()} className="text-xl hover:text-blue-300 focused:text-blue-500">NFT buildings</p>
                     
                     <a href="/">
                         <p className="text-xl hover:text-blue-300 focused:text-blue-500">Home</p>
@@ -106,6 +109,7 @@ export const Buildings =() =>{
             <footer className="flex flex-row justify-center mt-10">
           <p className="text-black text-sm">CopyRight (C) 2022 VisionSwipe All rights reserved.</p>
         </footer>
+        <ConnectToMetamask isOpen={isOpen} onClose={onClose} networkHandler={networkHandler}/>
         </body>
     )
 }
