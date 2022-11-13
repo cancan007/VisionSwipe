@@ -17,7 +17,7 @@ export const Service = () => {
             <TranslateX1>
             <Divider className='divider-1' mb={20}/>
             </TranslateX1>
-            <Box className="flex flex-column xl:flex-row"  alignItems={'center'} justifyContent={'space-evenly'} mb={40}>
+            <Box display={'flex'} flexDir={window.innerWidth >= 1280 ? 'row' : 'column'}  alignItems={'center'} justifyContent={'space-evenly'} mb={40}>
               <TranslateX21TBlockchainImage>
               <Image className="w-full" src='https://res.cloudinary.com/dbfpsigax/image/upload/v1668356012/VisionSwipe/service/blcokchain-image_kzrnx4.png'/>
               </TranslateX21TBlockchainImage>
