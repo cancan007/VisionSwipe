@@ -15,7 +15,7 @@ async function bootstrap() {
     else if ((0, configuration_1.configuration)().NODE_ENV === "production") {
         app.enableCors();
     }
-    app.useStaticAssets((0, path_1.join)(__dirname, '../frontend/build'));
+    app.useStaticAssets((0, path_1.join)(__dirname, './build'));
     await app.listen(process.env.PORT || 4000);
 }
 bootstrap();

@@ -53,7 +53,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npx hardhat run scripts/moveHtml.js",
     "build-normal": "react-scripts build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",

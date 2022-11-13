@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1798818e.css",
+    "main.js": "/static/js/main.9a2fa6f9.js",
+    "static/js/787.ba17a6e2.chunk.js": "/static/js/787.ba17a6e2.chunk.js",
+    "static/media/service-image.png": "/static/media/service-image.3d4effd5d1995401b462.png",
+    "static/media/house.png": "/static/media/house.bf2e38cbe4366002fbea.png",
+    "static/media/buildings-image.png": "/static/media/buildings-image.b368f3e7dbeda2f2ac37.png",
+    "static/media/kakurega.png": "/static/media/kakurega.4a022e99ad27c7a81a79.png",
+    "static/media/cube.png": "/static/media/cube.510b877c2c907883d316.png",
+    "static/media/aboutus-image.png": "/static/media/aboutus-image.a4050a8eeeef5252bbf6.png",
+    "static/media/detail-image.png": "/static/media/detail-image.c6860a5a80d1569c0479.png",
+    "static/media/contact-image.png": "/static/media/contact-image.fac013d58998a5be7df8.png",
+    "static/media/vs-icon.png": "/static/media/vs-icon.9cae2f293ec8ce28c66b.png",
+    "static/media/blockchainIcon.png": "/static/media/blockchainIcon.3ab803ce5c623bba6193.png",
+    "static/media/cryptoIcon.png": "/static/media/cryptoIcon.4c76cebef1f7511dac1b.png",
+    "static/media/nftIcon.png": "/static/media/nftIcon.f731422d6793c8900403.png",
+    "index.html": "/index.html",
+    "main.1798818e.css.map": "/static/css/main.1798818e.css.map",
+    "main.9a2fa6f9.js.map": "/static/js/main.9a2fa6f9.js.map",
+    "787.ba17a6e2.chunk.js.map": "/static/js/787.ba17a6e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1798818e.css",
+    "static/js/main.9a2fa6f9.js"
+  ]
+}

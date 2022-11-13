@@ -18,7 +18,7 @@ import { KakuregaModule } from './kakurega/kakurega.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../frontend/build'),
+      rootPath: join(__dirname, '../build'),
     }),
     
     ConfigModule.forRoot({

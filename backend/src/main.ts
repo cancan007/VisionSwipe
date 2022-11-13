@@ -36,7 +36,7 @@ async function bootstrap() {
   }
   
   
-  app.useStaticAssets(join(__dirname, '../frontend/build'));
+  app.useStaticAssets(join(__dirname, './build'));
   await app.listen(process.env.PORT || 4000);
 }
 bootstrap();
