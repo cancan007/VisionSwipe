@@ -4,6 +4,8 @@ npm install emailjs-com
 npm i bootstrap
 npm i react-bootstrap
 
+ "heroku-postbuild": "cd frontend && npm install && npm run build && cd ../backend && npm install"  自動でbuildもしていたが、fronendでbuildしてからherokuにdeployした方が軽いため除去
+
 // to implement stripe gateway
 npm i @stripe/react-stripe-js @stripe/stripe-js axios
 
