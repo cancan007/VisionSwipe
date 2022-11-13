@@ -1,0 +1,12 @@
+
+.translateX1 {
+    transform: translateX(100%);
+}
+
+.grow1 {
+    width: 100%;
+}
+
+.grow2 {
+    height: 100%;
+}

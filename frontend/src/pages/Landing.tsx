@@ -34,6 +34,7 @@ export const Landing = ()=>{
             </FadeIn>
           </div>
           </a>
+          <a href='/service' className='cursor-pointer'>
           <div className="service-section mt-20 flex flex-row">
             <p className="text-5xl md:text-7xl m-10 z-1">Services</p>
             <FadeIn>
@@ -45,6 +46,7 @@ export const Landing = ()=>{
             </div>
             </FadeIn>
           </div>
+          </a>
           <FadeIn>
           <div className="w-4/5 h-auto flex flex-row justify-between mt-20">
            <a href="#" className='hover:opacity-40 cursor-pointer mr-5'>

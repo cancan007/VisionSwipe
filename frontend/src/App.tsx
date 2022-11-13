@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './index.css';
+import './service.css';
 import { Landing } from './pages/Landing';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { BuildingDetail } from './pages/BuildingDetail';
@@ -14,6 +15,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Admin } from './pages/Admin';
 import { NFTBuildings } from './pages/NFTBuildings';
 import { MyNFTs } from './pages/MyNFTs';
+import { Service } from './pages/Service';
 
 function App() {
   const PUBLIC_KEY : any = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
@@ -32,6 +34,7 @@ function App() {
         <Route path="/" element={<Landing/>}/>
         <Route path="/buildings" element={<Buildings/>}/>
         <Route path="/nft-buildings" element={<NFTBuildings/>}/>
+        <Route path="/service" element={<Service/>}/>
         <Route path="/my-nfts" element={<MyNFTs/>}/>
         <Route path="/kakurega" element={<BuildingDetail/>}/>
         <Route path="/kakurega/admin" element={<KakuregaAdmin/>}/>
