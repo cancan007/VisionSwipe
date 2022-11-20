@@ -1,10 +1,13 @@
 import { Box, Image, Text, useDisclosure } from "@chakra-ui/react";
 import { FetchItemResult } from "../hooks/api/nft-buildings/useFetchItems";
+import { useAppSelector } from "../hooks/useGeneral";
 import { formEth } from "../utils/general";
 import { ItemDetailModal } from "./my-nfts/ItemDetailModal";
 
 interface GridItemsTableProps {
   items: FetchItemResult[];
+  admin?: boolean;
+  cancel?: any;
   /*isOpen: any;
   onOpen: () => void;
   onClose: () => void;*/
@@ -12,6 +15,8 @@ interface GridItemsTableProps {
 
 export const GridItemsTable: React.FC<GridItemsTableProps> = ({
   items,
+  admin,
+  cancel,
   /*isOpen,
   onOpen,
   onClose,*/
@@ -45,7 +50,13 @@ export const GridItemsTable: React.FC<GridItemsTableProps> = ({
                 {Number(formEth(item.priceUnit)) === 0 ? "$" : "Yen"}
               </Text>
             </Box>
-            <ItemDetailModal isOpen={isOpen} onClose={onClose} item={item} />
+            <ItemDetailModal
+              isOpen={isOpen}
+              onClose={onClose}
+              item={item}
+              admin={admin}
+              cancel={cancel && (() => cancel(item.itemId))}
+            />
           </Box>
         ))
       ) : (

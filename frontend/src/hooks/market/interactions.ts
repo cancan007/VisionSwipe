@@ -82,7 +82,7 @@ export const subscribeToEvents = (dispatch: AppDispatch, market: any) => {
       event: any
     ) => {
       const order = event.args;
-      dispatch({ type: "UPDATED_SOLDITEM", order, event });
+      dispatch({ type: "UPDATED_CANCELLEDITEM", order, event });
     }
   );
 };
@@ -106,11 +106,9 @@ export const loadAllTx = async (
     })
   );
   dispatch({ type: "SOLD_ITEMS_LOADED", soldItems: result });
-  const cancelledStream = await market.queryFilter(
-    "MarketItemCancelled",
-    0,
-    block
-  );
+
+  const cancelledFilter = market.filters.MarketItemCancelled();
+  const cancelledStream = await market.queryFilter(cancelledFilter, 0, block);
   const cancelledOrders = cancelledStream.map((event: any) => event.args);
   const result2: FetchItemResult[] = await Promise.all(
     cancelledOrders.map(async (item: Item, i: number) => {

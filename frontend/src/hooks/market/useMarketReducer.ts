@@ -40,7 +40,7 @@ export const marketReducer = (state: marketType = {}, action: AnyAction) => {
     case "CANCELLED_ITEMS_LOADED":
       return {
         ...state,
-        cancelledItems: action.cacelledItems,
+        cancelledItems: action.cancelledItems,
       };
     case "UPDATED_CANCELLEDITEM":
       return {

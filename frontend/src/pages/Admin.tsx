@@ -26,7 +26,7 @@ import React, {
 import { useDropzone } from "react-dropzone";
 import { IconContext } from "react-icons";
 import { FcAddImage } from "react-icons/fc";
-import { loadAllTx, loadMarket } from "../hooks/market/interactions";
+import { loadAllTx, loadItems, loadMarket } from "../hooks/market/interactions";
 import { loadNFT } from "../hooks/nft/interactions";
 import {
   loadAccount,
@@ -46,20 +46,31 @@ import {
 } from "../hooks/api/admin/uploadFlieToIpfs";
 import { pinataDedicatedDomain } from "../utils/admin/constants";
 import { GridItemsTable } from "../components/GridItemsTable";
+import { useCancelMarketItem } from "../hooks/api/admin/useCancelMarketItem";
+import { BigNumber } from "ethers";
 
 interface Image {
   id: number;
   src: string;
 }
+interface pageProps {
+  items: boolean;
+}
+const initialItemsPageState = {
+  items: false,
+};
 
 export const Admin = () => {
   const auth = useAppSelector((state) => state.provider.authentication);
-  const [soldPage, setSoldPage] = useState<boolean>(false);
+  const [itemsPage, setItemsPage] = useState<pageProps>(initialItemsPageState);
+  const [itemType, setItemType] = useState<string>("items");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const provider = useAppSelector((state) => state.provider.connection);
   const nft = useAppSelector((state) => state.nft.contract);
   const market = useAppSelector((state) => state.market.contract);
+  const items = useAppSelector((state) => state.market.items);
   const soldItems = useAppSelector((state) => state.market.soldItems);
+  const cancelledItems = useAppSelector((state) => state.market.cancelledItems);
   const networkHandler = async () => {
     await window.ethereum
       .request({
@@ -95,10 +106,7 @@ export const Admin = () => {
     });
     //subscribeToEvents(dispatch, casino);
     await loadAllTx(dispatch, market, nft, provider);
-  };
-  const handlePage = () => {
-    if (soldPage) setSoldPage(false);
-    else if (!soldPage) setSoldPage(true);
+    await loadItems(dispatch, market, nft);
   };
   const dispatch = useAppDispatch();
   const client = ipfsHttpClient({ url: "http://localhost:5001" });
@@ -214,6 +222,18 @@ export const Admin = () => {
     mutateCreateNft({ provider, nft, tokenURI: url });
   };
 
+  const { mutate: mutateCancelItem } = useCancelMarketItem({
+    onSuccess: () => {
+      alert("Succeeded to cancel the item");
+      loadItems(dispatch, market, nft);
+      loadAllTx(dispatch, market, nft, provider);
+    },
+  });
+
+  const cancelItem = (itemId: BigNumber) => {
+    mutateCancelItem({ provider, market, itemId });
+  };
+
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone({
       onDrop,
@@ -230,7 +250,51 @@ export const Admin = () => {
 
   return (
     <>
-      {!soldPage ? (
+      {itemsPage.items ? (
+        <Container
+          maxWidth={"900px"}
+          className="h-screen flex flex-col justify-start items-center mt-12"
+        >
+          <Box className="w-full flex flex-col items-center my-4">
+            <Text className="text-3xl">Items</Text>
+            <Box className="w-full flex flex-row items-center justify-end">
+              <a href="/" className="align-self-end mr-5">
+                <Box>
+                  <Text className="text-blue-500 hover:text-blue-200">
+                    Home
+                  </Text>
+                </Box>
+              </a>
+              <Text
+                onClick={() => setItemsPage(initialItemsPageState)}
+                className="text-pink-500 hover:text-pink-200"
+              >
+                Admin
+              </Text>
+            </Box>
+          </Box>
+          <RadioGroup onChange={(value) => setItemType(value)} value={itemType}>
+            <Stack direction={"row"} spacing={5}>
+              <Radio value="selling">Selling</Radio>
+              <Radio value="sold">Sold</Radio>
+              <Radio value="cancelled">Cancelled</Radio>
+            </Stack>
+          </RadioGroup>
+          <GridItemsTable
+            items={
+              itemType === "sold"
+                ? soldItems
+                : itemType === "cancelled"
+                ? cancelledItems
+                : itemType === "selling"
+                ? items
+                : []
+            }
+            admin={true}
+            cancel={itemType === "selling" && cancelItem}
+          />
+        </Container>
+      ) : (
         <Container
           maxWidth={"600px"}
           className="h-screen flex flex-col justify-center mt-32"
@@ -243,16 +307,16 @@ export const Admin = () => {
             <Box className="w-full flex flex-row items-center justify-end">
               <a href="/" className="align-self-end">
                 <Box>
-                  <Text className="text-blue-500 hover:text-blue-200 mr-3">
+                  <Text className="text-blue-500 hover:text-blue-200 mr-5">
                     Home
                   </Text>
                 </Box>
               </a>
               <Text
-                onClick={handlePage}
+                onClick={() => setItemsPage({ ...itemsPage, items: true })}
                 className="text-pink-500 hover:text-pink-200"
               >
-                Sold Items
+                Items
               </Text>
             </Box>
           </Box>
@@ -382,31 +446,6 @@ export const Admin = () => {
               Create NFT
             </Button>
           </Box>
-        </Container>
-      ) : (
-        <Container
-          maxWidth={"900px"}
-          className="h-screen flex flex-col justify-start mt-12"
-        >
-          <Box className="flex flex-col items-center my-4">
-            <Text className="text-3xl">Sold Items</Text>
-            <Box className="w-full flex flex-row items-center justify-end">
-              <a href="/" className="align-self-end mr-3">
-                <Box>
-                  <Text className="text-blue-500 hover:text-blue-200">
-                    Home
-                  </Text>
-                </Box>
-              </a>
-              <Text
-                onClick={handlePage}
-                className="text-pink-500 hover:text-pink-200"
-              >
-                Admin
-              </Text>
-            </Box>
-          </Box>
-          <GridItemsTable items={soldItems} />
         </Container>
       )}
     </>
