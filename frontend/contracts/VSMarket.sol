@@ -23,10 +23,14 @@ contract VSMarket is Ownable ,ReentrancyGuard{
 
     address test_avax_usd_priceFeed = 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD;
     //address test_jpy_usd_priceFeed =  no jpy price feed on avalanche testnet;
+
+    // Goerli Test net
+    address goerli_usd_priceFeed = 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e;
     
     enum NETWORK {
-        MAINNET,
-        TESTNET
+        AVALANCHE_MAINNET,
+        AVALANCHE_TESTNET,
+        GOERLI
     }
 
    mapping(uint256=> address) basicPriceFeeds; // 0=>usd, 1=>yen
@@ -36,11 +40,13 @@ contract VSMarket is Ownable ,ReentrancyGuard{
         vsOwner = payable(msg.sender);
         authors.push(msg.sender);
         _authorIds.increment();
-        if(_network == uint256(NETWORK.MAINNET)){
+        if(_network == uint256(NETWORK.AVALANCHE_MAINNET)){
             basicPriceFeeds[0] = avax_usd_priceFeed;
             basicPriceFeeds[1] = jpy_usd_priceFeed;
-        }else if(_network == uint256(NETWORK.TESTNET)){
+        }else if(_network == uint256(NETWORK.AVALANCHE_TESTNET)){
             basicPriceFeeds[0] = test_avax_usd_priceFeed;
+        } else if(_network == uint256(NETWORK.GOERLI)){
+            basicPriceFeeds[0] = goerli_usd_priceFeed;
         }
     }
 
@@ -292,6 +298,40 @@ contract VSMarket is Ownable ,ReentrancyGuard{
         }
         return items;
 
+    }
+
+    function fetchSoldNFTs() public view returns(MarketItem[] memory){
+        uint256 totalItemCount = _itemIds.current();
+        uint256 totalSoldCount = _itemSold.current();
+
+        uint256 currentIndex = 0;
+        MarketItem[] memory items = new MarketItem[](totalSoldCount);
+        for(uint256 i=0; i < totalItemCount; i++){
+            if(idToMarketItem[i+1].sold == true){
+                uint256 currentId = idToMarketItem[i+1].itemId;
+                MarketItem storage currentItem = idToMarketItem[currentId];
+                items[currentIndex] = currentItem;
+                currentIndex+=1;
+            }
+        }
+        return items;
+    }
+
+    function fetchCancelledNFTs() public view returns(MarketItem[] memory){
+        uint256 totalItemCount = _itemIds.current();
+        uint256 totalCancelledCount = _itemCancelled.current();
+
+        uint256 currentIndex = 0;
+        MarketItem[] memory items = new MarketItem[](totalCancelledCount);
+        for(uint256 i=0; i < totalItemCount; i++){
+            if(idToMarketItem[i+1].cancelled == true){
+                uint256 currentId = idToMarketItem[i+1].itemId;
+                MarketItem storage currentItem = idToMarketItem[currentId];
+                items[currentIndex] = currentItem;
+                currentIndex+=1;
+            }
+        }
+        return items;
     }
 
     function fetchAllAuthors() public view returns(address[] memory){

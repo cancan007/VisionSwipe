@@ -1,6 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-require('dotenv').config();
-
+require("dotenv").config();
 
 const privateKey = process.env.PRIVATE_KEY;
 const projectId = process.env.PROJECT_ID;
@@ -10,21 +9,26 @@ module.exports = {
   solidity: "0.8.17",
   networks: {
     hardhat: {
-      chainId: 1337
+      chainId: 1337,
+    },
+    goerli: {
+      chainId: 5,
+      url: `https://goerli.infura.io/v3/${projectId}`,
+      accounts: [privateKey],
     },
     mumbai: {
       chainId: 80001,
       url: `https://polygon-mumbai.infura.io/v3/${projectId}`,
-      accounts: [privateKey]
+      accounts: [privateKey],
     },
     avalancheTestnet: {
       chainId: 43113,
       url: avalancheFujiURL,
-      accounts: [privateKey]
+      accounts: [privateKey],
     },
     polygonMainnet: {
       url: `https://polygon-mainnet.infura.io/v3/${projectId}`,
-      accounts: [privateKey]
-    }
+      accounts: [privateKey],
+    },
   },
 };
