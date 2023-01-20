@@ -12,12 +12,15 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const config_1 = require("@nestjs/config");
 const configuration_1 = require("./config/configuration");
-const buildings_module_1 = require("./buildings/buildings.module");
+const buildings_module_1 = require("./modules/buildings/buildings.module");
 const mongoose_1 = require("@nestjs/mongoose");
-const stripe_module_1 = require("./stripe/stripe.module");
+const stripe_module_1 = require("./modules/stripe/stripe.module");
 const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
-const kakurega_module_1 = require("./kakurega/kakurega.module");
+const kakurega_module_1 = require("./modules/kakurega/kakurega.module");
+const user_controller_1 = require("./modules/user/user.controller");
+const user_service_1 = require("./modules/user/user.service");
+const user_module_1 = require("./modules/user/user.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -29,15 +32,18 @@ AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 envFilePath: `./src/config/env/${process.env.NODE_ENV}.env`,
                 load: [configuration_1.configuration],
-                isGlobal: true
+                isGlobal: true,
             }),
-            mongoose_1.MongooseModule.forRoot(((0, configuration_1.configuration)().NODE_ENV ===
-                'production') ? (0, configuration_1.configuration)().MONGODB_URI
+            mongoose_1.MongooseModule.forRoot((0, configuration_1.configuration)().NODE_ENV === 'production'
+                ? (0, configuration_1.configuration)().MONGODB_URI
                 : 'mongodb://localhost:27017/visionswipe', { useNewUrlParser: true, useUnifiedTopology: true }),
-            buildings_module_1.BuildingsModule, stripe_module_1.StripeModule, kakurega_module_1.KakuregaModule
+            buildings_module_1.BuildingsModule,
+            stripe_module_1.StripeModule,
+            kakurega_module_1.KakuregaModule,
+            user_module_1.UserModule,
         ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [app_controller_1.AppController, user_controller_1.UserController],
+        providers: [app_service_1.AppService, user_service_1.UserService],
     })
 ], AppModule);
 exports.AppModule = AppModule;
