@@ -44,7 +44,7 @@ import {
   uploadFileToIpfs,
   uploadJsonToIpfs,
 } from "../hooks/api/admin/uploadFlieToIpfs";
-import { pinataDedicatedDomain } from "../utils/admin/constants";
+//import { pinataDedicatedDomain } from "../utils/admin/constants";
 import { GridItemsTable } from "../components/GridItemsTable";
 import { useCancelMarketItem } from "../hooks/api/admin/useCancelMarketItem";
 import { BigNumber } from "ethers";
@@ -137,8 +137,8 @@ export const Admin = () => {
       /*let res = await client.add({content: acceptedFiles[i]});
             let url = `https://ipfs.io/ipfs/${res.cid}`;*/
       let res = await uploadFileToIpfs(acceptedFiles[i]);
-      //let url = `https://gateway.pinata.cloud/ipfs/${res.IpfsHash}` // public gateway: so slow to show image
-      let url = `https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}`; // dedicated gateway: restricted gateway
+      let url = `https://gateway.pinata.cloud/ipfs/${res.IpfsHash}`; // public gateway: so slow to show image
+      //let url = `https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}`; // dedicated gateway: restricted gateway
       ipfsImages.push(url);
     }
     setInfo((prevState: any) => ({ ...prevState, images: ipfsImages }));
@@ -218,7 +218,8 @@ export const Admin = () => {
     //const res = await client.add(buildingJson);
     const res = await uploadJsonToIpfs(buildingJson);
     //const url = `https://ipfs.io/ipfs/${res.cid}`;
-    const url = `https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}`;
+    //const url = `https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}`;
+    const url = `https://gateway.pinata.cloud/ipfs/${res.IpfsHash}`;
     mutateCreateNft({ provider, nft, tokenURI: url });
   };
 

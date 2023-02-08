@@ -18,7 +18,7 @@ ipfs daemon で出てくる画像と出てこない画像がある
 
 pinata には public gateway(読み込みが遅い) と　 dedicated gateway(限られた人のみがそこから読み込める, 月額で払う必要あり)がある
 
-- public gateway: https://gateway.pinata.cloud/ipfs/${res.IpfsHash}
+- public gateway: https://gateway.pinata.cloud/ipfs/${res.IpfsHash} // そんな遅くない
 - dedicated gateway: https://${pinataDedicatedDomain}/ipfs/${res.IpfsHash}
 
 Avalanche Testnet で使ってる p2pfy の ethereum network では ethers.js の queryFilter などでのリクエストのリミットが 2048 まで、infra だと問題なさそう.
